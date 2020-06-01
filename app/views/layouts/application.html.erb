@@ -11,7 +11,7 @@
   </head>
 
   <body>
-    <% unless controller_name == "sessions" %>
+    <% unless @current_admin == nil %>
       <% if (controller_name == 'users' && action_name == 'show')%>
         <div class="header" id="myHeader">
           <%= link_to (image_tag 'Logo.png', style: "height: 50px; width: 50px; border-radius: 25px"), users_path, class: "headerPic", style: "float:left; margin: 20px 0 0 20px; moz-box-shadow: 0px 6px 29px 0px rgba(0,0,0,0.75)" %>

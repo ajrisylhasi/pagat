@@ -52,6 +52,7 @@ class DeklarimsController < ApplicationController
 		@deklarim = Deklarim.find(params[:id])
 		@pagas = @deklarim.pagas
 		render xlsx: "Deklarimi per muajin #{@deklarim.muaji}", template: "deklarims/show.xlsx.axlsx" 
+		return
 	end
 
 	private

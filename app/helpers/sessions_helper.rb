@@ -20,6 +20,7 @@ module SessionsHelper
   end
 
   def logged_in_user?
+    current_admin
     !current_user.nil?
   end
 
@@ -38,7 +39,7 @@ module SessionsHelper
   def go_login
     unless logged_in?
       flash[:danger] = "Duhet te kyqeni paraprakisht."
-      redirect_to login_path
+      redirect_to login_user_path
     end
   end
 

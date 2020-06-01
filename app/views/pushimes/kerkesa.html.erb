@@ -1,8 +1,5 @@
-
 <center>
-  <center><div style="width:450px; margin-top: 0px;"><%= render 'layouts/flash' %></div></center>
-</center>
-<center>
+  <div style="width:450px; margin-top: 0px;"><%= render 'layouts/flash' %></div>
   <div class="form">
     <%= link_to "Faqja Kryesore", show_path, class: "btn btn-primary", style: "margin-bottom: 50px" %>
     <div class="alert alert-info" style="width:450px;margin-bottom: 50px"><h3>Kerko Pushim per <%= @current_user.name %>(<%= @current_user.idnum %>)</h3></div>
@@ -27,7 +24,7 @@
         <div class="field-wrap">
           <%= f.label :data_fillimit, "Data e fillimit te Pushimit Vjetor" %> <span class="star" style="color:red">*</span>
           <%= f.date_field :data_fillimit, class: 'form-control', style: "height: 38px" %>
-          <div id="error_data_fillimit"><p>Nuk mund te jete zbrazet fusha</p><br></div>
+          <div id="error_data_fillimit"><p>Nuk mund te jete e zbrazet fusha</p><br></div>
         </div>
       </div>
       <br>
@@ -69,7 +66,6 @@
         </div>
       </div>
       <br>
-      
       <div class="butoni_log" onClick="checkThirdForm()">Krijoni Kerkesen</div>
     </div>
     <% end %>

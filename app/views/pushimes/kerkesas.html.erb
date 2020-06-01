@@ -1,5 +1,4 @@
 <div class="container">
-	<center><%= link_to "Kerko Pushim", kerkesa_path, class: "btn btn-primary", style: "margin: 20px" %></center>
 	<% @kerkesas.each do |k| %>
 		<div class="jumbotron" style="<% if k.finished %>background: #9ffcad;<% else %>background: #f57d5f;<% end %>">
 			<table>
@@ -25,6 +24,14 @@
 		      			</div>
 	      			</td>
 	      			<% end %>
+	      			<td style="vertical-align: top;">
+						<div style="float:right">
+						<%= link_to destroy_kerkesa_path(k), method: :delete do %>
+	      					<span class="glyphicon glyphicon-remove" style="color: green; font-size: 21px"></span>
+	      				<% end %>
+		      			</div>
+	      			</td>
+	      			
 				</tr>
 			</table>
 		</div>

@@ -79,26 +79,128 @@ class User < ApplicationRecord
   end
 
   def pushimi_vjetor
-    muajt = (self.data_fillimit.month..Date.today.month).count
+    data_sot = Date.today
+    data = self.data_fillimit
+    pushimi_kaluar = 0.0
+    data_limit = data
+    if data.year < data_sot.year
+      unless Date.today.month > 6
+        pushimi_kaluar = pushimi_vjetor_kaluar
+      end
+      data = Date.new(data.year, 1, 1)
+      data_limit = Date.new(data_sot.year, 6, 30)
+    end
+    muajt = (data.month..Date.today.month).count
     pushimi = muajt * 1.5
     minus = 0
     self.kerkesas.each do |k|
-      if k.finished && k.lloji_pushimit == "Pushim Vjetor"
-        minus += k.numri_diteve
+      if k.data_fillimit >= data_limit
+        if k.finished && k.lloji_pushimit == "Pushim Vjetor"
+          minus += k.numri_diteve
+        end
       end
     end
-    return pushimi - minus
+    pushimi = pushimi - minus
+    return pushimi + pushimi_kaluar
+  end
+
+  def pushimi_vjetor_kaluar
+    data = self.data_fillimit
+    if (data.year + 1) < Date.today.year
+      data = Date.new(Date.today.year - 1, 1, 1)
+    end
+    data_funit = Date.new(data.year, 12, 1)
+    data_limit = Date.new(data.year+1, 6, 30)
+    muajt = (data.month..data_funit.month).count
+    pushimi = muajt * 1.5
+    minus_kaluar = 0
+    minus = 0
+    self.kerkesas.each do |k|
+      if k.data_mbarimit > data_limit
+        if k.data_fillimit < data_limit && k.data_fillimit > data
+          if k.finished && k.lloji_pushimit == "Pushim Vjetor"
+            minus_kaluar = k.numri_diteve_spec(data_limit)
+          else
+            next
+          end
+        else
+          next
+        end
+      elsif k.data_mbarimit <= data_limit
+        if k.data_fillimit > data_fillimit
+          if k.finished && k.lloji_pushimit == "Pushim Vjetor"
+            minus_kaluar = k.numri_diteve
+          else
+            next
+          end
+        end
+      else
+        next
+      end
+    end
+    return pushimi - minus_kaluar
   end
 
   def pushimi_mjekesor
-    muajt = (self.data_fillimit.month..Date.today.month).count
+    data_sot = Date.today
+    data = self.data_fillimit
+    pushimi_kaluar = 0.0
+    data_limit = data
+    if data.year < data_sot.year
+      unless Date.today.month > 6
+        pushimi_kaluar = pushimi_mjekesor_kaluar
+      end
+      data = Date.new(data.year, 1, 1)
+      data_limit = Date.new(data_sot.year, 6, 30)
+    end
+    muajt = (data.month..Date.today.month).count
     pushimi = muajt * 1.5
     minus = 0
     self.kerkesas.each do |k|
-      if k.finished && k.lloji_pushimit == "Pushim Mjekesor"
-        minus += k.numri_diteve
+      if k.data_fillimit >= data_limit
+        if k.finished && k.lloji_pushimit == "Pushim Vjetor"
+          minus += k.numri_diteve
+        end
       end
     end
-    return pushimi - minus
+    pushimi = pushimi - minus
+    return pushimi + pushimi_kaluar
+  end
+
+  def pushimi_mjekesor_kaluar
+    data = self.data_fillimit
+    if (data.year + 1) < Date.today.year
+      data = Date.new(Date.today.year - 1, 1, 1)
+    end
+    data_funit = Date.new(data.year, 12, 1)
+    data_limit = Date.new(data.year+1, 6, 30)
+    muajt = (data.month..data_funit.month).count
+    pushimi = muajt * 1.5
+    minus_kaluar = 0
+    minus = 0
+    self.kerkesas.each do |k|
+      if k.data_mbarimit > data_limit
+        if k.data_fillimit < data_limit && k.data_fillimit > data
+          if k.finished && k.lloji_pushimit == "Pushim Mjekesor"
+            minus_kaluar = k.numri_diteve_spec(data_limit)
+          else
+            next
+          end
+        else
+          next
+        end
+      elsif k.data_mbarimit <= data_limit
+        if k.data_fillimit > data_fillimit
+          if k.finished && k.lloji_pushimit == "Pushim Mjekesor"
+            minus_kaluar = k.numri_diteve
+          else
+            next
+          end
+        end
+      else
+        next
+      end
+    end
+    return pushimi - minus_kaluar
   end
 end

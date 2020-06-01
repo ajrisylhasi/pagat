@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   resources :pushims
 
   post "/kerkesas", to: "pushimes#kerkesa_create"
+  delete "/:id", to: "pushimes#kerkesa_destroy", as: :destroy_kerkesa
   get "/kerkesa", to: "pushimes#kerkesa"
   get "/kerkesas", to: "pushimes#kerkesas"
   get "/show", to: "pushimes#show"

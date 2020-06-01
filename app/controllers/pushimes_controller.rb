@@ -9,12 +9,23 @@ class PushimesController < ApplicationController
 	def show
 	end
 
+	def kerkesa_destroy
+		@kerkesa = Kerkesa.find(params[:id])
+		@kerkesa.destroy
+		redirect_to kerkesas_path
+	end
+
 	def kerkesa_create
 		k = params[:kerkesa]
 		data = params.require(:kerkesa).permit(:lloji_pushimit, :data_fillimit, :data_mbarimit, :file)
 		data[:user] = @current_user
 		start = Date.parse(data[:data_fillimit])
 		endi = Date.parse(data[:data_mbarimit])
+		if start < Date.today
+			flash[:danger] = "Dita e fillimit vetem ka filluar."
+			redirect_to show_path
+			return
+		end
 		no_work = []
 		i = 1
 		data[:user].pushimet.each do |p|
@@ -53,9 +64,34 @@ class PushimesController < ApplicationController
 
 	def finish_kerkesa
 		@kerkesa = Kerkesa.find(params[:id])
-		@kerkesa.finished = true
-		@kerkesa.save
-		redirect_to kerkesas_path
+		start = @kerkesa.data_fillimit
+		endi = @kerkesa.data_mbarimit
+		no_work = []
+		i = 1
+		@kerkesa.user.pushimet.each do |p|
+			if p == "true"
+				if i == 7
+					no_work << 0
+					next
+				end
+				no_work << i
+			end
+			i+=1
+		end
+		pushim_dates = Pushim.all
+		result = (start..endi).to_a.select {|k| !(no_work.include?(k.wday))}
+		result = result.select { |k| !(pushim_dates.any? { |p| p.date == k})}
+		if @kerkesa.lloji_pushimit == "Pushim Vjetor" && @kerkesa.numri_diteve > @kerkesa.user.pushimi_vjetor
+			flash[:danger] = "Nuk keni dite te mjatueshme"
+			redirect_to kerkesas_path
+		elsif @kerkesa.lloji_pushimit == "Pushim Mjekesor" && @kerkesa.numri_diteve > @kerkesa.user.pushimi_mjekesor
+			flash[:danger] = "Nuk keni dite te mjatueshme"
+			redirect_to kerkesas_path
+		else
+			@kerkesa.finished = true
+			@kerkesa.save
+			redirect_to kerkesas_path
+		end
 	end
 
 	def delete_image_attachment

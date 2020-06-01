@@ -483,6 +483,6 @@ class UsersController < ApplicationController
   private
 
     def user_params 
-      params.require(:user).permit(:name, :idnum, :contract, :comment, :personal_number, :pushimi_vjetor, :pushimi_mjekesor, :email, :salary, :shkurt_pushim, :sales, :salary_type, pushimet:[], works_attributes: [ :id, :start, :end, :_destroy])
+      params.require(:user).permit(:name, :idnum, :contract, :comment, :personal_number, :data_fillimit, :email, :salary, :shkurt_pushim, :sales, :salary_type, pushimet:[], works_attributes: [ :id, :start, :end, :_destroy])
     end
 end
