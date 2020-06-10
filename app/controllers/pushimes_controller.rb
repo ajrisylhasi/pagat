@@ -43,8 +43,13 @@ class PushimesController < ApplicationController
 		result = result.select { |k| !(pushim_dates.any? { |p| p.date == k})}
 		data[:numri_diteve] = result.count
 		@kerkesa = Kerkesa.new(data)
-
-		if data[:lloji_pushimit] == "Pushim Vjetor" && @kerkesa.numri_diteve > @current_user.pushimi_vjetor
+		if start > Date.new(Date.today.year, 6,30) && data[:lloji_pushimit] == "Pushim Vjetor" && @kerkesa.numri_diteve > @current_user.pushimi_vjetor_sivjet
+			flash[:danger] = "Nuk keni dite te mjatueshme"
+			redirect_to show_path
+		elsif start > Date.new(Date.today.year, 6,30) && data[:lloji_pushimit] == "Pushim Mjekesor" && @kerkesa.numri_diteve > @current_user.pushimi_mjekesor_sivjet
+			flash[:danger] = "Nuk keni dite te mjatueshme"
+			redirect_to show_path
+		elsif data[:lloji_pushimit] == "Pushim Vjetor" && @kerkesa.numri_diteve > @current_user.pushimi_vjetor
 			flash[:danger] = "Nuk keni dite te mjatueshme"
 			redirect_to show_path
 		elsif data[:lloji_pushimit] == "Pushim Mjekesor" && @kerkesa.numri_diteve > @current_user.pushimi_mjekesor
