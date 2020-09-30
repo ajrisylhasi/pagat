@@ -1,0 +1,24 @@
+<%= form_for @work do |f|%>
+
+  <div class="modal" id="edit_work" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="exampleModalLabel"><strong>Ndrysho diten e pune</strong></h4>
+        </div>
+        <div class="modal-body">
+          <%= f.label :start, "Koha e Fillimit" %>
+          <%= f.datetime_local_field :start, class: 'form-control', placeholder: "YYYY-MM-DD HH:mm" %>
+          <%= f.label :end, "Koha e perfundimit" %>
+          <%= f.datetime_field :end, class: 'form-control', placeholder: "YYYY-MM-DD HH:mm" %>
+          <%= f.label :miss, "Minutat Mungese Jasht Pushimit" %>
+          <%= f.number_field :miss, class: 'form-control'%>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Mbylle</button>
+          <%= f.submit "Shto", class: "btn btn-primary" %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

@@ -1,0 +1,19 @@
+<div class="modal fade" id="edit_deklarim" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <%= form_for @deklarim do |f| %>
+      <div class="modal-header">
+        <h3 class="modal-title" id="exampleModalLabel">Ndrysho Deklarimin</h3>
+      </div>
+      <div class="modal-body">
+          <%= f.label :muaji, "Muaji i Deklarimit" %> <span style="color:red">*</span>
+          <%= f.text_field :muaji, class: 'form-control', style: "width: max-parent" %>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Mbylle</button>
+        <%= f.submit "Ndrysho Produktin", class: "btn btn-primary" %>
+      </div>
+      <% end %>
+    </div>
+  </div>
+</div>

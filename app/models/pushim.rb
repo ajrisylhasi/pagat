@@ -1,0 +1,2 @@
+class Pushim < ApplicationRecord
+end

@@ -1,0 +1,2 @@
+module PagasHelper
+end

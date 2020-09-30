@@ -1,0 +1,83 @@
+<div class="container" style="width: 40%">
+	<%= form_for @specific_contract, class: "form-inline" do |f| %>
+		<div class="day">
+			<center>
+				<h3>Totali - <%= @specific_contract.total %> Orë</h3>
+			</center>
+		</div>
+		<div class="row">
+			<div class="col-xs-6">
+				<div class="day">
+					<center>
+						<h4>E Hënë - Orët</h4>
+						<%= f.number_field :monday, class: "form-control" %>
+					</center>
+				</div>
+			</div>
+			<div class="col-xs-6">
+				<div class="day">
+					<center>
+						<h4>E Martë - Orët</h4>
+						<%= f.number_field :tuesday, class: "form-control" %>
+					</center>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-xs-6">
+				<div class="day">
+					<center>
+						<h4>E Mërkurë - Orët</h4>
+						<%= f.number_field :wednesday, class: "form-control" %>
+					</center>
+				</div>
+			</div>
+			<div class="col-xs-6">
+				<div class="day">
+					<center>
+						<h4>E Enjte - Orët</h4>
+						<%= f.number_field :thursday, class: "form-control" %>
+					</center>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-xs-6">
+				<div class="day">
+					<center>
+						<h4>E Premte - Orët</h4>
+						<%= f.number_field :friday, class: "form-control" %>
+					</center>
+				</div>
+			</div>
+			<div class="col-xs-6">
+				<div class="day">
+					<center>
+						<h4>E Shtunë - Orët</h4>
+						<%= f.number_field :saturday, class: "form-control" %>
+					</center>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-xs-6">
+				<div class="day">
+					<center>
+						<h4>E Diel - Orët</h4>
+						<%= f.number_field :sunday, class: "form-control" %>
+					</center>
+				</div>
+			</div>
+		</div>
+		<%= f.submit "Hidden Submit", style:'display: none' %>
+	<% end %>
+</div>
+<script>
+	$(".form-control").on('blur', function() {
+	    $(this).css( {'background': '#dee2e6'});
+	    $(this).closest('form').submit();
+	  });
+</script>

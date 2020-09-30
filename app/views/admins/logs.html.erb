@@ -1,0 +1,21 @@
+<div class="container" style="width:50%">
+	<%= will_paginate @logs, renderer: BootstrapPagination::Rails, :previous_label => 'Prapa', :next_label => 'Perpara'  %>
+  	<table class="table" >
+	  <thead>
+	    <tr>
+	      <th scope="col">#</th>
+	      <th scope="col">Teksti</th>
+
+	    </tr>
+	  </thead>
+	  <tbody>
+	  	<% @logs.each do |a| %>
+		    <tr>
+		      <th scope="row"><%= @i += 1 %></th>
+		      <td><p><%= a.text %></p><p style="color:red"> <%= a.koha.strftime("%Y-%m-%d %H:%M") %> nga: <%= a.kush %></p></td>
+		    </tr>
+	  	<% end %>
+	  </tbody>
+	</table>
+</div>
+

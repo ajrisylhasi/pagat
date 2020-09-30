@@ -1,0 +1,93 @@
+
+<center>
+  <center><div style="width:450px; margin-top: 0px;"><%= render 'layouts/flash' %></div></center>
+</center>
+<center>
+  <div class="form">
+    <%= link_to "Faqja Kryesore", show_path, class: "btn btn-primary", style: "margin-bottom: 50px" %>
+    <div class="alert alert-info" style="width:450px;margin-bottom: 50px"><h3>Kerko Pushim per <%= @current_user.name %>(<%= @current_user.idnum %>)</h3></div>
+    <%= form_for @kerkesa do |f| %>
+    <div class="errorat">
+      <div class="alert alert-danger">Kerkesa ka Gabime<a class="close" data-dismiss="alert">&#215;</a></div>
+    </div>
+    <div class="faqja_1">
+      <div class="top-row">
+        <div class="field-wrap">
+          <%= f.label :data_punes, "Data e fillimit te Punes" %> <span class="star" style="color:red">*</span>
+          <%= f.date_field :data_punes, autocomplete:"off", class: 'form-control', style: "height: 38px" %>
+          <div id="error_data_punes"><p>Nuk mund te jete zbrazet fusha</p><br></div>
+        </div>
+      </div>
+      <br>
+      <div class="top-row">
+        <div class="field-wrap">
+          <%= f.label :lloji_pushimit, "Lloji i pushimit" %> <span class="star" style="color:red">*</span>
+          <%= f.select :lloji_pushimit, [["Pushim Vjetor", "Pushim Vjetor"],[ "Pushim Mjekesor", "Pushim Mjekesor" ]],{}, class: 'form-control' %>
+          <div id="error_lloji_pushimit"><p>Nuk mund te jete zbrazet fusha</p><br></div>
+        </div>
+      </div>
+      <br>
+      <div class="butoni_log" onClick="checkFirstForm()">Vazhdo ne faqen tjeter</div>
+    </div>
+    <div class="faqja_2">
+      <div class="butoni_log_shkurt" onClick="shkoPas('vjet')">Shko pas</div><br>
+      <div class="top-row">
+        <div class="field-wrap">
+          <%= f.label :data_fillimit, "Data e fillimit te Pushimit Vjetor" %> <span class="star" style="color:red">*</span>
+          <%= f.date_field :data_fillimit, class: 'form-control', style: "height: 38px" %>
+          <div id="error_data_fillimit"><p>Nuk mund te jete zbrazet fusha</p><br></div>
+        </div>
+      </div>
+      <br>
+      <div class="top-row">
+        <div class="field-wrap">
+          <%= f.label :data_mbarimit, "Data e mbarimit te Pushimit Vjetor" %> <span class="star" style="color:red">*</span>
+          <%= f.date_field :data_mbarimit, class: 'form-control', style: "height: 38px" %>
+          <div id="error_data_mbarimit"><p>Nuk mund te jete zbrazet fusha</p><br></div>
+        </div>
+      </div>
+      <br>
+      <div class="top-row">
+        <div class="field-wrap">
+          <%= f.label :numri_diteve, "Numri i Diteve Te Pushimit Vjetor" %> <span class="star" style="color:red">*</span>
+          <%= f.number_field :numri_diteve, autocomplete:"off", class: 'form-control', style: "height: 38px" %>
+          <div id="error_numri_diteve"><p>Nuk mund te jete zbrazet fusha</p><br></div>
+        </div>
+      </div>
+      <br>
+      <div class="butoni_log" onClick="checkSecondForm()">Krijo Kerkesen</div>
+    </div>
+    <div class="faqja_3">
+      <div class="butoni_log_shkurt" onClick="shkoPas('mjeks')">Shko pas</div><br>
+      <div class="top-row">
+        <div class="field-wrap">
+          <%= f.label :data_fillimit, "Data e fillimit te Pushimit Mjekesor" %> <span class="star" style="color:red">*</span>
+          <%= f.date_field :data_fillimit, class: 'form-control', style: "height: 38px" %>
+          <div id="error_data_fillimit"><p>Nuk mund te jete zbrazet fusha</p><br></div>
+        </div>
+      </div>
+      <br>
+      <div class="top-row">
+        <div class="field-wrap">
+          <%= f.label :data_mbarimit, "Data e mbarimit te Pushimit Mjekesor" %> <span class="star" style="color:red">*</span>
+          <%= f.date_field :data_mbarimit, class: 'form-control', style: "height: 38px" %>
+          <div id="error_data_mbarimit"><p>Nuk mund te jete zbrazet fusha</p><br></div>
+        </div>
+      </div>
+      <br>
+      <div class="top-row">
+        <div class="field-wrap" style="height: 150px">
+            <span class="btn btn-primary btn-file" id="fileInputSpanKerkesa">
+              <span style="margin-top: 35px; font-size:35px; float:center" class="glyphicon glyphicon-download-alt"></span>
+                <%= f.file_field :file %>
+            </span>
+          <div id="error_file"><p>Nuk mund te jete zbrazet fusha</p><br></div>
+        </div>
+      </div>
+      <br>
+      
+      <div class="butoni_log" onClick="checkThirdForm()">Krijoni Kerkesen</div>
+    </div>
+    <% end %>
+  </div>
+</center>

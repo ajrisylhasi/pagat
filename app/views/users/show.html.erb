@@ -1,0 +1,278 @@
+<style>
+      td {
+        text-align: center;
+      }
+      th {
+        text-align: center;
+      }
+    </style>
+<% content_for(:title, " - #{@user.name}") %>
+<div id="remote_container"></div>
+<div class="container">
+	<table width="100%">
+		<tr>
+			<td>
+				<div>
+					<%= form_for "", url: user_url(@user), role: "search", method: :get  do %>
+						<%= date_field_tag "search[date_from]", @date_from, class: "date-forms", style: "width:30%" %>
+						<%= date_field_tag "search[date_to]", @date_to, class: "date-forms", style: "width:30%" %>
+
+						<%= submit_tag "Kerko",  class: "btn btn-primary" %>
+					<% end %>
+				</div>
+			</td>
+			<td>
+				<div>
+					<%= form_for "", url: user_url(@user), role: "search", method: :get  do %>
+						<%= text_field_tag "search[datat]", @datat, class: "gui-input date-forms", style: "width:30%", id: "dates_range", placeholder: "Ditet e Pushimit" %>
+
+						<%= submit_tag "Selekto Ditet e Pushimit",  class: "btn btn-primary" %>
+					<% end %>
+				</div>
+			</td>
+			<td>
+				<div>
+					<%= form_for "", url: user_url(@user, @date_from, @date_to), method: :get  do %>
+						<%= hidden_field_tag "date_from", @date_from %>
+						<%= hidden_field_tag "date_to", @date_to %>
+						<%= submit_tag "Kalkulo nga ditet",  class: "btn btn-primary", name: "ndrysho_pagen" %>
+					<% end %>
+				</div>
+			</td>
+		</tr>
+	</table>
+	<%= render 'shared/error_messages' %>
+	<center><div style="width:450px"><%= render 'layouts/flash' %></div></center>
+	<table class="table">
+	  <thead>
+	    <tr>
+	      <th scope="col" style=""><button type="button" data-toggle="modal" data-target="#exampleModal" style="border: 0px; padding: 0px; background: none; color: green;font-size: 21px">&#43;</button></th>
+	      <th scope="col">ID</th>
+	      <th scope="col">Emri</th>
+	      <th scope="col">Data Fillimit</th>
+	      <th scope="col">Fillimi</th>
+	      <th scope="col">Data Mbarimit</th>
+	      <th scope="col">Mbarimi</th>
+	      <th scope="col">Totali (Ore)</th> 
+	      <th scope="col">Shtese (Ore)</th>
+	      <th scope="col">Mungese (Ore)</th>
+	      <th scope="col">Dite pune ne Pushim (Ore)</th>
+	      <th scope="col">Beje pushim</th>
+	      <th scope="col"></th>
+	      <th scope="col"></th>
+	    </tr>
+	  </thead>
+	  <% i = 0 %>
+	  <tbody>
+	  	<% @works.sort_by { |w| w.start}.each do |a| %>
+
+		    <tr <% if a.pushim == true %>style="background: #b3b3b3"<% end %>>
+		      <th scope="row"><% if a.part_group %><% if a == a.group.last_work %><%= i += 1 %><% end %><% else %><%= i += 1 %><% end %></th>
+		      <td><%= a.user.idnum %></td>
+		      <td style="white-space: nowrap;"><%= a.user.name %></td>
+		      <td><% if !(a.start.blank?) %><%= a.start.strftime("%Y-%m-%d") %><% end %></td>
+	          <td><% if !(a.start.blank?) %><%= a.start.strftime("%H:%M:%S") %><% end %></td>
+	          <td><% if !(a.end.blank?) %><%= a.end.strftime("%Y-%m-%d") %><% end %></td>
+	          <td><% if !(a.end.blank?) %><%= a.end.strftime("%H:%M:%S") %><% end %></td>
+	          <% if a.part_group && a == a.group.last_work %>
+	            <td><%= (a.group.last_work.total/60).to_i %>:<% if a.group.last_work.total%60 < 10 %>0<% end %><%= (a.group.last_work.total%60).to_i %></td>
+	            <td><%= (a.group.extra/60).to_i %>:<% if a.group.extra%60 < 10 %>0<% end %><%= (a.group.extra%60).to_i %></td>
+	            <td><%= (a.group.missing/60).to_i %>:<% if a.group.missing%60 < 10 %>0<% end %><%= (a.group.missing%60).to_i %></td>
+	            <td><%= (a.group.extra_pushim/60).to_i %>:<% if a.group.extra_pushim%60 < 10 %>0<% end %><%= (a.group.extra_pushim%60).to_i %></td>
+	          <% else %>
+	            <td><%= (a.total/60).to_i %>:<% if a.total%60 < 10 %>0<% end %><%= (a.total%60).to_i %></td>
+	            <td><%= (a.extra/60).to_i %>:<% if a.extra%60 < 10 %>0<% end %><%= (a.extra%60).to_i %></td>
+	            <td><%= (a.missing/60).to_i %>:<% if a.missing%60 < 10 %>0<% end %><%= (a.missing%60).to_i %></td>
+	            <td><%= (a.extra_pushim/60).to_i %>:<% if a.extra_pushim%60 < 10 %>0<% end %><%= (a.extra_pushim%60).to_i %></td>
+	        <% end %>
+	      	<td><center>
+	      		<% if a.pushim == true %>
+	      			<%= link_to pushimize_path(a), method: :post do %>
+	      					<span class="glyphicon glyphicon-remove" style="color: red; font-size: 15px"></span>
+	      			<% end %>
+	      		<% else %>
+	      			<%= link_to pushimize_path(a), method: :post do %>
+	      					<span class="glyphicon glyphicon-ok" style="color: green; font-size: 15px"></span>
+	      			<% end %>
+	      		<% end %>
+	      		</center>
+	      	</td>
+		      <td><%= link_to a, method: :delete do %>
+	      		<span class="glyphicon glyphicon-trash" style="color: red; font-size: 18px"></span><% end %>
+	      	</td>
+	      	<td>
+	      		<%= link_to edit_work_path(a), remote: true do %>
+	      					<span class="glyphicon glyphicon-pencil" style="text-decoration: none"></span>
+	      			<% end %>
+	      		</td>
+		    </tr>
+	  	<% end %>
+	  	<% unless @works.count == 0 || @user.contract == 0 || @salary == 0 %>	
+		  	<tr>
+		  		<th scope="row">Totali</th>
+		  		<td></td>
+		  		<td></td>
+		  		<td></td>
+		  		<td></td>
+		  		<td></td>
+		  		<td></td>
+		  		<td></td>
+		        <th scope="row"><%= (@extra_t_para/60).to_i %>:<% if @extra_t_para%60 < 10 %>0<% end %><%= (@extra_t_para%60).to_i %></th>
+		        <th scope="row"><%= (@missing_t_para/60).to_i %>:<% if @missing_t_para%60 < 10 %>0<% end %><%= (@missing_t_para%60).to_i %></th>
+		        <th scope="row"><%= (@extra_pushim_t_para/60).to_i %>:<% if @extra_pushim_t_para%60 < 10 %>0<% end %><%= (@extra_pushim_t_para%60).to_i %></th>
+		        <td></td>
+		        <td></td>
+		  		<td></td>
+		  	</tr>
+	  	<% end %>
+		</tbody>
+	</table>
+	<%= link_to edit_user_path(@user) do %><span class="glyphicon glyphicon-pencil" style="color: black; font-size: 20px"></span><% end %>
+	<div class="row">
+	  <div class="col-6 col-sm-6">
+	  	<% unless @works.count == 0 || @user.contract == 0 || @salary == 0 %>	
+			<p><strong>Pasqyra e pagës Bruto për periudhën <%= @date_from %> - <%= @date_to %></strong></p>
+			<p>Pagesa totale Bruto: <%= @salary.round(2) %>&#8364</p>
+			<p>Sigurimet Shoqërore punëdhënësi: <%= @sig.round(2) %>&#8364</p>
+			<p>Sigurimet Shoqërore punëmarrësi: <%= @sig.round(2) %>&#8364</p>
+			<p>Paga minus Sigurime Shoqërore nga punëmarrësi (paga e Tatushme): <%= @salary_ps.round(2) %>&#8364</p>
+			<p>Tatimi mbi Pagë: <%= @tatimi.round(2) %>&#8364</p>
+			<p><strong>Paga Neto (pagesa në llogarinë tuaj bankare): <%= @salary_neto.round(2) %>&#8364</strong></p>
+			<br>
+			<br>
+			<p><strong>Pasqyra e pagës totale për periudhën <%= @date_from %> - <%= @date_to %></strong></p>
+			<p>Pagesa totale Bruto: <%= @salary.round(2) %>&#8364</p>
+			<p>Çmimi për orë normale: <%= @ora.round(2) %>&#8364</p>
+			<p>Çmimi për orë me 30%: <%= @ora_e.round(2) %>&#8364</p>
+			<p>Çmimi për orë me 50%: <%= @ora_p.round(2)  %>&#8364</p>
+			<p>Orë shtesë me 30%: <%= (@extra_t/60).to_i %>:<% if @extra_t%60 < 10 %>0<% end %><%= (@extra_t%60).to_i %></p>		
+			<p>Orë shtesë me 50%: <%= (@extra_pushim_t/60).to_i %>:<% if @extra_pushim_t%60 < 10 %>0<% end %><%= (@extra_pushim_t%60).to_i %></p>
+			<p>Pagesa për orët shtesë me 30%: <%= @oret_e.round(2)  %>&#8364</p>
+			<p>Pagesa për orët shtesë me 50%: <%= @oret_p.round(2)  %>&#8364</p>
+			<p>Pushimi nga orët shtesë me 30%: <%= (@oret_e_kohe/60).to_i %>:<% if @oret_e_kohe%60 < 10 %>0<% end %><%= (@oret_e_kohe%60).to_i %></p>
+			<p>Pushimi nga orët shtesë me 50%: <%= (@oret_p_kohe/60).to_i %>:<% if @oret_p_kohe%60 < 10 %>0<% end %><%= (@oret_p_kohe%60).to_i %></p>
+			<div>
+				<%= form_for(@user) do |f| %>
+					<p>Pagesa nga perqindjet ne shitje (&#8364)</p>
+					<%= f.text_field :sales, class: 'form-control', style: "width: 45%", id: "sales" %>
+				<% end %>
+			</div>
+			<p>Pagesa Bruto Totale (paga+orët shtesë ): <%= @salary_e.round(2)  %>&#8364</p>
+			<p>Sigurimet Shoqërore punëdhënësi: <%= @sig_e.round(2)  %>&#8364</p>
+			<p>Sigurimet Shoqërore punëmarrësi: <%= @sig_e.round(2)  %>&#8364</p>
+			<p>Paga minus Sigurime Shoqërore nga punëmarrësi (paga e Tatushme): <%= @salary_ps_e.round(2)  %>&#8364</p>
+			<p>Tatimi mbi Pagë: <%= @tatimi_e.round(2)  %>&#8364</p>
+			<p><strong>Paga Neto (pagesa në llogarinë tuaj bankare gjithësej me orë shtesë): <%= @salary_e_n.round(2)  %>&#8364</strong></p>
+			<br>
+			<p><strong>Pagesa Neto totale për orët shtesë: <%= @extra_payment.round(2)  %>&#8364</strong></p>
+		<% end %>
+	  </div>
+	  <div class="col-6 col-sm-6">
+	  	<%= form_for(@user) do |f| %>
+	  		<%= f.label :comment, "Komenti" %>
+			<%= f.text_area :comment, class: 'form-control', style: "height: 120px", id: "commenti" %>
+		<% end %>
+	  </div>
+	</div>
+	<% if @specific %>
+		<%= link_to image_tag('excel_icon.svg', style: "width: 50px;height:50px"), gen_specific_xl_path(date_from: @date_from, date_to: @date_to)%>
+		<%= link_to image_tag('email_icon.svg', style: "width: 120px;height:75px"), send_specific_mail_path(date_from: @date_from, date_to: @date_to), id:"email-button" %>
+	<% else %>
+		<%= link_to image_tag('excel_icon.svg', style: "width: 50px;height:50px"), gen_xl_path(date_from: @date_from, date_to: @date_to)%>
+		<%= link_to image_tag('email_icon.svg', style: "width: 120px;height:75px"), send_mail_path(date_from: @date_from, date_to: @date_to), id:"email-button" %>
+	<% end %>
+	<%= link_to "Deklaro pagen", deklaro_pagen_path(a, date_from: @date_from, @date_to), method: :post do %>
+</div>
+<%= form_for @user do |f|%>
+
+  <div class="modal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="exampleModalLabel"><strong>Shto dite te re pune</strong></h4>
+        </div>
+        <%= f.fields_for :works do |na| %>
+			<% unless na.object.persisted? %>
+			  <div class="modal-body">
+					<%= na.label :start, "Koha e Fillimit" %>
+					<%= na.datetime_local_field :start, class: 'form-control', placeholder: "YYYY-MM-DD HH:mm" %>
+					<%= na.label :end, "Koha e perfundimit" %>
+					<%= na.datetime_field :end, class: 'form-control', placeholder: "YYYY-MM-DD HH:mm" %>
+        	  </div>
+			  <div class="modal-footer">
+			    <button type="button" class="btn btn-danger" data-dismiss="modal">Mbylle</button>
+			    <%= f.submit "Shto", class: "btn btn-primary", name: "add_work" %>
+			  </div>
+			<% end %>
+		<% end %>
+      </div>
+    </div>
+  </div>
+<% end %>
+<div class="modal fade" id="waiting-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="top:30%">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header" style="height: 50px">
+        <center><h4 class="modal-title" id="exampleModalLabel"><strong>Duke u derguar Email</strong></h4></center>
+      </div> 
+      <div class="modal-body">
+        <div id="animation-box"></div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+<div style="height: 200px"></div>
+<script>
+	$("#dates_range").multiDatesPicker({
+		onSelect: function(){
+
+        // Get the "datepicker" object.
+        var datepickerObj = $(this).data("datepicker");
+
+        // Get the "settings" object within "datepicker".
+        var datepickerSettings = datepickerObj.settings;
+
+        // Get the last date picked.
+        var tempDay = datepickerObj.selectedDay;
+        var tempMonth = datepickerObj.selectedMonth+1;
+        var tempYear = datepickerObj.selectedYear;
+        var pickedDate = tempMonth+"/"+tempDay+"/"+tempYear;
+
+        // Remove previous "defaultDate" property.
+        delete datepickerSettings["defaultDate"];
+
+        // Add a new defaultDate property : value.
+        datepickerSettings.defaultDate=pickedDate;
+
+        // "Hacky trick" to avoid having to click twice on prev/next month.
+        $("#datePickTweaked").blur();
+        setTimeout(function(){
+            $("#datePickTweaked").focus();
+        },0.5);
+    }})
+	$("#commenti").on('blur', function() {
+	    $(this).css( {'background': '#dee2e6'});
+	    $(this).closest('form').submit();
+	  });
+	$("#shkurt").on('blur', function() {
+	    $(this).css( {'background': '#dee2e6'});
+	    $(this).closest('form').submit();
+	  });
+	$("#sales").on('blur', function() {
+	    $(this).css( {'background': '#dee2e6'});
+	    $(this).closest('form').submit();
+	  });
+	function shkurto() {
+	  document.getElementById("shkurt").closest('form').submit();
+	}
+	function show_slow_warning() {
+		$("#waiting-modal").show();
+		$("#waiting-modal").modal({backdrop: "static", keyboard: false});
+	}
+	$(document).ready(function() {
+		$("#email-button").click(function(){
+			show_slow_warning();
+		});
+	});
+</script>

@@ -1,0 +1,52 @@
+<div class="container">
+	<center>
+		<div>
+			<%= link_to "Users", root_path, class: "btn btn-primary" %>
+		</div>
+	</center>
+	<center>
+		<div>
+			<h3> Import Working Days from Excel</h3>
+			<%= form_tag import_works_path, multipart:true do %>
+				<span class="btn btn-large btn-warning btn-file" id="fileInputSpan">
+				    Choose File
+				    <%= file_field_tag :file %>
+				</span>
+				<%= submit_tag "Upload Working Days", class: "btn btn-primary", style: "margin: 10px", id: "import" %>
+			<% end %>
+		</div>
+	</center>
+
+	
+</div>
+
+<div class="modal fade" id="waiting-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="top:30%">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header" style="height: 50px">
+        <center><h4 class="modal-title" id="exampleModalLabel"><strong>Duke u realizuar kalkulimet e Excel-it</strong></h4></center>
+      </div> 
+      <div class="modal-body">
+        <div id="animation-box"></div>
+        <center><h4 class="modal-title" id="exampleModalLabel" style="margin-top: 15px;"><strong>Ju lutem prisni derisa të realizohen kalkulimet.</strong></h4></center>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+	document.getElementById('file').onchange = function () {
+	  document.getElementById('fileInputSpan').className = "btn btn-large btn-success btn-file";
+	  alert("File Chosen: "+ document.getElementById('file').value.replace(/^.*[\\\/]/, ''));
+	};
+	function show_slow_warning() {
+		$("#waiting-modal").show();
+		$("#waiting-modal").modal({backdrop: "static", keyboard: false});
+	}
+	$(document).ready(function() {
+		$("#import").click(function(){
+			show_slow_warning();
+		});
+	});
+
+
+</script>

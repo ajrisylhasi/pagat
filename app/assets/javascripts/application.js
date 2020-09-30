@@ -1,0 +1,10 @@
+//= require rails-ujs
+//= require turbolinks
+//= require jquery
+//= require jquery-ui
+//= require jquery-ui.multidatespicker
+//= require bootstrap
+//= require jquery_ujs
+//= require pushimes
+//= require_tree .
+//= require_self

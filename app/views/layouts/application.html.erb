@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>HR Info System <%= yield(:title) %></title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+  </head>
+
+  <body>
+    <% unless controller_name == "sessions" %>
+      <% if (controller_name == 'users' && action_name == 'show')%>
+        <div class="header" id="myHeader">
+          <%= link_to (image_tag 'Logo.png', style: "height: 50px; width: 50px; border-radius: 25px"), users_path, class: "headerPic", style: "float:left; margin: 20px 0 0 20px; moz-box-shadow: 0px 6px 29px 0px rgba(0,0,0,0.75)" %>
+        </div>
+      <% elsif controller_name == "users" && action_name == "index" %>
+        <div class="header" id="myHeader">
+          <%= link_to (image_tag 'Logo.png', style: "height: 50px; width: 50px; border-radius: 25px"), admins_path, class: "headerPic", style: "float:left; margin: 20px 0 0 20px; moz-box-shadow: 0px 6px 29px 0px rgba(0,0,0,0.75)" %>
+        </div>
+      <% elsif controller_name == "users" && action_name == "edit" %>
+        <div class="header" id="myHeader">
+          <%= link_to (image_tag 'Logo.png', style: "height: 50px; width: 50px; border-radius: 25px"), @user, class: "headerPic", style: "float:left; margin: 20px 0 0 20px; moz-box-shadow: 0px 6px 29px 0px rgba(0,0,0,0.75)" %>
+        </div>
+      <% elsif controller_name == "users" && action_name == "specific_contract_days" %>
+        <div class="header" id="myHeader">
+          <%= link_to (image_tag 'Logo.png', style: "height: 50px; width: 50px; border-radius: 25px"), edit_user_path(@user), class: "headerPic", style: "float:left; margin: 20px 0 0 20px; moz-box-shadow: 0px 6px 29px 0px rgba(0,0,0,0.75)" %>
+        </div>
+      <% elsif controller_name == "admins" && action_name == "index" %>
+        <div class="header" id="myHeader">
+          <%= link_to (image_tag 'Logo.png', style: "height: 50px; width: 50px; border-radius: 25px"), users_path, class: "headerPic", style: "float:left; margin: 20px 0 0 20px; moz-box-shadow: 0px 6px 29px 0px rgba(0,0,0,0.75)" %>
+        </div>
+      <% elsif controller_name == "admins" && action_name == "pushimet" %>
+        <div class="header" id="myHeader">
+          <%= link_to (image_tag 'Logo.png', style: "height: 50px; width: 50px; border-radius: 25px"), admins_path, class: "headerPic", style: "float:left; margin: 20px 0 0 20px; moz-box-shadow: 0px 6px 29px 0px rgba(0,0,0,0.75)" %>
+        </div>
+      <% elsif controller_name == "admins" && action_name == "edit" %>
+        <div class="header" id="myHeader">
+          <%= link_to (image_tag 'Logo.png', style: "height: 50px; width: 50px; border-radius: 25px"), admins_path, class: "headerPic", style: "float:left; margin: 20px 0 0 20px; moz-box-shadow: 0px 6px 29px 0px rgba(0,0,0,0.75)" %>
+        </div>
+      <% elsif controller_name == "admins" && action_name == "logs" %>
+        <div class="header" id="myHeader">
+          <%= link_to (image_tag 'Logo.png', style: "height: 50px; width: 50px; border-radius: 25px"), admins_path, class: "headerPic", style: "float:left; margin: 20px 0 0 20px; moz-box-shadow: 0px 6px 29px 0px rgba(0,0,0,0.75)" %>
+        </div>
+      <% else %>
+        <div class="header" id="myHeader">
+          <%= link_to (image_tag 'Logo.png', style: "height: 50px; width: 50px; border-radius: 25px"), users_path, class: "headerPic", style: "float:left; margin: 20px 0 0 20px; moz-box-shadow: 0px 6px 29px 0px rgba(0,0,0,0.75)" %>
+        </div>
+      <% end %>
+    <% end %>
+    <%= yield %>
+  </body>
+
+</html>
+
+<script>
+  window.onscroll = function() {myFunction()};
+
+  var header = document.getElementById("myHeader");
+  var sticky = header.offsetTop;
+
+  function myFunction() {
+    if (window.pageYOffset > sticky) {
+      header.classList.add("sticky");
+    } else {
+      header.classList.remove("sticky");
+    }
+  }
+</script>

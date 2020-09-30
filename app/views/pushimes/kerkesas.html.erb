@@ -1,0 +1,32 @@
+<div class="container">
+	<center><%= link_to "Kerko Pushim", kerkesa_path, class: "btn btn-primary", style: "margin: 20px" %></center>
+	<% @kerkesas.each do |k| %>
+		<div class="jumbotron" style="<% if k.finished %>background: #9ffcad;<% else %>background: #f57d5f;<% end %>">
+			<table>
+				<tr>
+					<td>	
+						<p>Kerkese per pushim te llojit: "<%= k.lloji_pushimit %>" nga <%= k.user.name %>(<%= k.user.idnum %>)</p>
+						<p>Periudha: <%= k.data_fillimit %> / <%= k.data_mbarimit %></p>
+						<p>
+							<% if k.file.attached? %>
+								<%= link_to k.file.filename,  rails_blob_path(k.file, disposition: :attachment) %> |
+				      			<%= link_to 'Remove', kerkesas_delete_image_attachment_url(k.file.id), method: :delete %>
+							<% end %>
+						</p>
+					</td>
+					<td width="10%">
+					</td>
+					<% unless k.finished %>
+					<td style="vertical-align: top;">
+						<div style="float:right">
+						<%= link_to finish_kerkesa_path(k), method: :post do %>
+	      					<span class="glyphicon glyphicon-ok" style="color: green; font-size: 21px"></span>
+	      				<% end %>
+		      			</div>
+	      			</td>
+	      			<% end %>
+				</tr>
+			</table>
+		</div>
+	<% end %>
+</div>

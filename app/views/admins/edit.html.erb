@@ -1,0 +1,31 @@
+  
+<center>
+  <div class="container" style="width:30%">
+    <div>
+      <%= form_for(@admin)do |f|%>
+        <% if !(params[:errors].nil?) %>
+          <ul class="alert alert-danger"><a class="close" data-dismiss="alert">&#215;</a>
+            <% params[:errors].each do |a| %>
+              <li style="margin:15px"><%= a %></li>
+            <% end %>
+          </ul>
+        <% end %> 
+        <div>
+          <%= f.submit "Ndrysho", class: "btn btn-primary", style: "margin-top: 15px" %><br><br>
+          <%= f.label :name, "Emri" %>
+          <%= f.text_field :name, class: 'form-control' %>
+          <%= f.label :email, "Email" %>
+          <%= f.email_field :email, class: 'form-control' %>
+          <%= f.label :password %>
+          <%= f.password_field :password, class: 'form-control' %>
+          <%= f.label :password_confirmation %>
+          <%= f.password_field :password_confirmation, class: 'form-control' %>
+          <%= f.label :sending_mail, "Email per Dergim" %>
+          <%= f.select :sending_mail, ["humanresources@albinadyla.com", "humanresources.pr@albinadyla.com"], {:prompt => 'Zgjedh Email-in'}, class: "form-control"%> 
+          <%= f.label :lang, "Gjuha ne CrossChex" %>
+          <%= f.select :lang, ["Shqip", "Anglisht"], {:prompt => 'Zgjedh Gjuhen'}, class: "form-control"%> 
+        </div>
+      <% end %>
+    </div>
+  </div>
+</center>

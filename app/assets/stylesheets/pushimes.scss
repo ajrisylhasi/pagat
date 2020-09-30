@@ -1,0 +1,69 @@
+// Place all the styles related to the Pushimes controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: https://sass-lang.com/
+#file_name {
+	display: none;
+}
+.form {
+	width: 450px;
+
+	background: white;
+	border-radius: 5px;
+	margin-top: 50px;
+	padding-bottom: 50px;
+}
+.top-row {
+	width: 400px;
+}
+.top-row label {
+	float: left;
+	color: #6c757d;
+	font-size: 17px;
+}
+.top-row .star {
+	float: left;
+	font-size: 17px;
+	margin-left: 5px;
+}
+.top-row p {
+	float:left;
+	color:red;
+}
+.butoni_log {
+	border: 0px;
+	background: #31ce77;
+	width: 400px;
+	height: 40px;
+	color: white;
+	font-size: 18px;
+	border-radius: 2.5px;
+}
+.butoni_log:hover {
+	background: #259b59;
+}
+.butoni_log_shkurt {
+	border: 0px;
+	background: #31ce77;
+	float:left;
+	margin-left:25px;
+	width: 100px;
+	height: 20px;
+	color: white;
+	font-size: 15px;
+	border-radius: 2.5px;
+}
+.butoni_log_shkurt:hover {
+	background: #259b59;
+}
+.errorat {
+	display:none;
+}
+.faqja_2 {
+	display: none;
+}
+.faqja_3 {
+	display: none;
+}
+.finished {
+	background: red;
+}

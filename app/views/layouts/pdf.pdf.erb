@@ -1,0 +1,119 @@
+<html>
+  <head>
+    <%= wicked_pdf_stylesheet_link_tag "application" %>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+    <style>
+      td {
+        text-align: center;
+      }
+      th {
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <center>
+      <%= image_tag wicked_pdf_asset_base64('white_logo.png'), style: "width:100px; height: 100px; margin-bottom: 50px" %>
+    </center>
+    <table class="table" style="font-size:12px;">
+    <thead>
+      <tr>
+        <th scope="col" style="">#</th>
+        <th scope="col">ID</th>
+        <th scope="col">Emri</th>
+        <th scope="col">Data Fillimit</th>
+        <th scope="col">Fillimi</th>
+        <th scope="col">Data Mbarimit</th>
+        <th scope="col">Mbarimi</th>
+        <th scope="col">Totali (Ore)</th> 
+        <th scope="col">Shtese (Ore)</th>
+        <th scope="col">Mungese (Ore)</th>
+        <th scope="col">Dite pune ne Pushim (Ore)</th>
+      </tr>
+    </thead>
+    <% i = 0 %>
+
+    <tbody>
+      <% @works.sort_by { |w| w.start}.each do |a| %>
+
+        <tr <% if a.pushim == true %>style="background: #b3b3b3"<% end %>>
+          <th scope="row"><%= i += 1 %></th>
+          <td><%= a.user.idnum %></td>
+          <td style="white-space: nowrap;"><%= a.user.name %></td>
+          <td><% if !(a.start.blank?) %><%= a.start.strftime("%Y-%m-%d") %><% end %></td>
+          <td><% if !(a.start.blank?) %><%= a.start.strftime("%H:%M:%S") %><% end %></td>
+          <td><% if !(a.end.blank?) %><%= a.end.strftime("%Y-%m-%d") %><% end %></td>
+          <td><% if !(a.end.blank?) %><%= a.end.strftime("%H:%M:%S") %><% end %></td>
+          <% if a.part_group && a == a.group.last_work %>
+            <td><%= (a.group.last_work.total/60).to_i %>:<% if a.group.last_work.total%60 < 10 %>0<% end %><%= (a.group.last_work.total%60).to_i %></td>
+            <td><%= (a.group.extra/60).to_i %>:<% if a.group.extra%60 < 10 %>0<% end %><%= (a.group.extra%60).to_i %></td>
+            <td><%= (a.group.missing/60).to_i %>:<% if a.group.missing%60 < 10 %>0<% end %><%= (a.group.missing%60).to_i %></td>
+            <td><%= (a.group.extra_pushim/60).to_i %>:<% if a.group.extra_pushim%60 < 10 %>0<% end %><%= (a.group.extra_pushim%60).to_i %></td>
+          <% else %>
+            <td><%= (a.total/60).to_i %>:<% if a.total%60 < 10 %>0<% end %><%= (a.total%60).to_i %></td>
+            <td><%= (a.extra/60).to_i %>:<% if a.extra%60 < 10 %>0<% end %><%= (a.extra%60).to_i %></td>
+            <td><%= (a.missing/60).to_i %>:<% if a.missing%60 < 10 %>0<% end %><%= (a.missing%60).to_i %></td>
+            <td><%= (a.extra_pushim/60).to_i %>:<% if a.extra_pushim%60 < 10 %>0<% end %><%= (a.extra_pushim%60).to_i %></td>
+        <% end %>
+        </tr>
+      <% end %>
+      <tr>
+        <th scope="row">Totali</th>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <th scope="row"><%= (@extra_t_para/60).to_i %>:<% if @extra_t_para%60 < 10 %>0<% end %><%= (@extra_t_para%60).to_i %></th>
+        <th scope="row"><%= (@missing_t_para/60).to_i %>:<% if @missing_t_para%60 < 10 %>0<% end %><%= (@missing_t_para%60).to_i %></th>
+        <th scope="row"><%= (@extra_pushim_t_para/60).to_i %>:<% if @extra_pushim_t_para%60 < 10 %>0<% end %><%= (@extra_pushim_t_para%60).to_i %></th>
+      </tr>
+    </tbody>
+  </table>
+    <% unless @user.works.count == 0 || @user.contract == 0 || @user.salary == 0 %> 
+      <div style="page-break-inside:avoid;">
+        <p style="font-size: 20px"> <strong>Pasqyra e pagës Bruto për periudhën <%= @date_from %> - <%= @date_to %> per punemarresin: <%= @user.name %></strong></p>
+        <p>Pagesa totale Bruto: <%= @salary.round(2) %>€</p>
+        <p>Sigurimet Shoqërore punëdhënësi: <%= @sig.round(2) %>€</p>
+        <p>Sigurimet Shoqërore punëmarrësi: <%= @sig.round(2) %>€</p>
+        <p>Paga minus Sigurime Shoqërore nga punëmarrësi (paga e Tatushme): <%= @salary_ps.round(2) %>€</p>
+        <p>Tatimi mbi Pagë: <%= @tatimi.round(2) %>€</p>
+        <p style="font-size: 20px"><strong>Paga Neto (pagesa në llogarinë tuaj bankare): <%= @salary_neto.round(2) %>€</strong></p>
+      </div>
+      <br>
+      <br>
+      <div style="page-break-inside:avoid;">
+        <p style="font-size: 20px"><strong>Pasqyra e pagës totale për periudhën <%= @date_from %> - <%= @date_to %></strong></p>
+        <p>Pagesa totale Bruto: <%= @salary.round(2) %>€</p>
+        <p>Çmimi për orë normale: <%= @ora.round(2) %>€</p>
+        <p>Çmimi për orë me 30%: <%= @ora_e.round(2) %>€</p>
+        <p>Çmimi për orë me 50%: <%= @ora_p.round(2)  %>€</p>
+        <p>Orë shtesë me 30%: <%= (@extra_t/60).to_i %>:<% if @extra_t%60 < 10 %>0<% end %><%= (@extra_t%60).to_i %></p>    
+        <p>Orë shtesë me 50%: <%= (@extra_pushim_t/60).to_i %>:<% if @extra_pushim_t%60 < 10 %>0<% end %><%= (@extra_pushim_t%60).to_i %></p>
+        <p>Pagesa për orët shtesë me 30%: <%= @oret_e.round(2)  %>€</p>
+        <p>Pagesa për orët shtesë me 50%: <%= @oret_p.round(2)  %>€</p>
+        <p>Oret shtese për orët shtesë me 30%: <%= (@oret_e_kohe/60).to_i %>:<% if @oret_e_kohe%60 < 10 %>0<% end %><%= (@oret_e_kohe%60).to_i %></p>
+        <p>Oret shtese për orët shtesë me 50%: <%= (@oret_p_kohe/60).to_i %>:<% if @oret_p_kohe%60 < 10 %>0<% end %><%= (@oret_p_kohe%60).to_i %></p>
+        <p>Pagesa për perqindjet ne shitje: <%= @user.sales.round(2) %></p>
+        <p>Pagesa Bruto Totale (paga+orët shtesë ): <%= @salary_e.round(2)  %>€</p>
+        <p>Sigurimet Shoqërore punëdhënësi: <%= @sig_e.round(2)  %>€</p>
+        <p>Sigurimet Shoqërore punëmarrësi: <%= @sig_e.round(2)  %>€</p>
+        <p>Paga minus Sigurime Shoqërore nga punëmarrësi (paga e Tatushme): <%= @salary_ps_e.round(2)  %>€</p>
+        <p>Tatimi mbi Pagë: <%= @tatimi_e.round(2)  %>€</p><br>
+        <p style="font-size: 20px"><strong>Paga Neto (pagesa në llogarinë tuaj bankare gjithësej me orë shtesë): <%= @salary_e_n.round(2)  %>€</strong></p>
+        <br>
+        <p style="font-size: 18px"><strong>Pagesa Neto totale për orët shtesë: <%= @extra_payment.round(2)  %>€</strong></p>
+      </div>
+    <% end %>
+  </body>
+</html>
+<style>
+  td {
+    white-space: nowrap;
+  }
+  th {
+    white-space: nowrap;
+  }
+}

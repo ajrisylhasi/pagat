@@ -1,0 +1,46 @@
+<div class="container" style="width:50%">
+  	<%= will_paginate @pushims, renderer: BootstrapPagination::Rails, :previous_label => 'Prapa', :next_label => 'Perpara'  %>
+  	<table class="table" >
+	  <thead>
+	    <tr>
+	      <th scope="col"><button type="button" data-toggle="modal" data-target="#importModal" style="border: 0px; padding: 0px; background: none; color: green;font-size: 21px">&#43;</button></th>
+	      <th scope="col">Data</th>
+	      <th scope="col">Teksti</th>
+	      <th scope="col"></th>
+
+	    </tr>
+	  </thead>
+	  <tbody>
+	  	<% @pushims.each do |a| %>
+		    <tr>
+		      <th scope="row"><%= @i += 1 %></th>
+		      <td><%= a.date %></td>
+		      <td><%= a.komenti%></td>
+		      <td><%= link_to a, method: :delete do %>
+	      		<span class="glyphicon glyphicon-trash" style="color: red; font-size: 18px"></span><% end %>
+	      	  </td>
+		    </tr>
+	  	<% end %>
+	  </tbody>
+	</table>
+</div>
+<div class="modal" id="importModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+      	<%= form_tag pushimet_zyrtare_path do %>
+	        <div class="modal-header">
+	          <h4 class="modal-title" id="exampleModalLabel"><strong>Shto dite zyrtare pushimi</strong></h4>
+	        </div>
+	        <div class="modal-body">
+				<%= label_tag :date, "Data" %>
+				<%= date_field_tag :date, @date, class: 'form-control' %>
+				<%= label_tag :komenti %>
+				<%= text_area_tag :komenti, @komenti, class: 'form-control' %>
+	    	  </div>
+	        <div class="modal-footer">
+	          <%= submit_tag "Shto te dhenat", class: "btn btn-primary", style: "margin: 10px", id: "import" %>
+	        </div>
+        <% end %>
+      </div>
+    </div>
+</div>

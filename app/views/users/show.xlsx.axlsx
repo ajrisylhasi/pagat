@@ -1,0 +1,53 @@
+wb = xlsx_package.workbook
+wb.add_worksheet(name: "Products") do |sheet|
+  sheet.add_row ["ID", "Emri", "Fillimi", "Mbarimi", "Total", "Shtese", "Mungese", "Pushim"]
+  @works.each do |a|
+    if a.part_group && a == a.group.last_work
+      sheet.add_row [a.user.idnum, a.user.name, a.start.strftime("%Y-%m-%d %H:%M"), a.end.strftime("%Y-%m-%d %H:%M"),
+      "#{(a.group.last_work.total/60).to_i}:#{ a.group.last_work.total%60 < 10 ? 0 : ""}#{ (a.group.last_work.total%60).to_i}", 
+      "#{(a.group.extra/60).to_i}:#{ a.group.extra%60 < 10 ? 0 : ""}#{ (a.group.extra%60).to_i}",
+      "#{(a.group.missing/60).to_i}:#{ a.group.missing%60 < 10 ? 0 : ""}#{ (a.group.missing%60).to_i}",
+      "#{(a.group.extra_pushim/60).to_i}:#{ a.group.extra_pushim%60 < 10 ? 0 : ""}#{ (a.group.extra_pushim%60).to_i}"]
+    else
+      sheet.add_row [a.user.idnum, a.user.name, a.start.strftime("%Y-%m-%d %H:%M"), a.end.strftime("%Y-%m-%d %H:%M"),
+      "#{(a.total/60).to_i}:#{ a.total%60 < 10 ? 0 : ""}#{ (a.total%60).to_i}", 
+      "#{(a.extra/60).to_i}:#{ a.extra%60 < 10 ? 0 : ""}#{ (a.extra%60).to_i}",
+      "#{(a.missing/60).to_i}:#{ a.missing%60 < 10 ? 0 : ""}#{ (a.missing%60).to_i}",
+      "#{(@extra_t_para/60).to_i}:#{ a.extra_pushim%60 < 10 ? 0 : ""}#{ (a.extra_pushim%60).to_i}"]
+    end
+  end
+
+  sheet.add_row [""]
+  sheet.add_row ["", "Totali", "", "", "", "#{(@extra_t_para/60).to_i}:#{ @extra_t_para%60 < 10 ? 0 : ""}#{ (@extra_t_para%60).to_i}", 
+  "#{(@missing_t_para/60).to_i}:#{ @missing_t_para%60 < 10 ? 0 : ""}#{ (@missing_t_para%60).to_i}", 
+  "#{(@extra_pushim_t_para/60).to_i}:#{ @extra_pushim_t_para%60 < 10 ? 0 : ""}#{ (@extra_pushim_t_para%60).to_i}"]
+  sheet.add_row ["", "Pasqyra e pagës Bruto për periudhën" ," #{@date_from} - #{@date_to}"]
+  sheet.add_row ["", "Pagesa totale Bruto", @salary.round(2)]
+  sheet.add_row ["", "Sigurimet Shoqërore punëdhënësi", @sig.round(2)]
+  sheet.add_row ["", "Sigurimet Shoqërore punëmarrësi", @sig.round(2)]
+  sheet.add_row ["", "Paga minus Sigurime Shoqërore nga punëmarrësi (paga e Tatushme)", @salary_ps.round(2)]
+  sheet.add_row ["", "Tatimi mbi Pagë", @tatimi.round(2)]
+  sheet.add_row ["", "Paga Neto (pagesa në llogarinë tuaj bankare)", @salary_neto.round(2)]
+  sheet.add_row [""]
+  sheet.add_row [""]
+  sheet.add_row [""]
+  sheet.add_row ["", "Pasqyra e pagës totale për periudhën", " #{@date_from} - #{@date_to}"]
+  sheet.add_row ["", "Pagesa totale Bruto", @salary.round(2)]
+  sheet.add_row ["", "Çmimi për orë normale", @ora.round(2)]
+  sheet.add_row ["", "Çmimi për orë normale", @ora_e.round(2)]
+  sheet.add_row ["", "Orë shtesë me 30%", "#{(@extra_t/60).to_i}:#{@extra_t%60 < 10 ? "0" : ""}#{(@extra_t%60).to_i}"]
+  sheet.add_row ["", "Orë shtesë me 50%", "#{(@extra_pushim_t/60).to_i}:#{@extra_pushim_t%60 < 10 ? "0" : ""}#{(@extra_pushim_t%60).to_i}"]
+	sheet.add_row ["", "Pagesa për orët shtesë me 30%", @oret_e.round(2)]
+	sheet.add_row ["", "Pagesa për orët shtesë me 50%", @oret_p.round(2)]
+  sheet.add_row ["", "Oret shtese për orët shtesë me 30%", "#{(@oret_e_kohe/60).to_i}:#{@oret_e_kohe%60 < 10 ? "0" : ""}#{(@oret_e_kohe%60).to_i}"]
+  sheet.add_row ["", "Oret shtese për orët shtesë me 50%", "#{(@oret_p_kohe/60).to_i}:#{@oret_p_kohe%60 < 10 ? "0" : ""}#{(@oret_p_kohe%60).to_i}"]
+  sheet.add_row ["", "Pagesa për perqindjet ne shitje", @user.sales.round(2)]
+	sheet.add_row ["", "Pagesa Bruto Totale (paga+orët shtesë)", @salary_e.round(2)]
+	sheet.add_row ["", "Sigurimet Shoqërore punëdhënësi", @sig_e.round(2)]
+	sheet.add_row ["", "Sigurimet Shoqërore punëmarrësi", @sig_e.round(2)]
+	sheet.add_row ["", "Paga minus Sigurime Shoqërore nga punëmarrësi (paga e Tatushme)" , @salary_ps_e.round(2)]
+	sheet.add_row ["", "Tatimi mbi Pagë", @tatimi_e.round(2)]
+	sheet.add_row ["", "Paga Neto (pagesa në llogarinë tuaj bankare gjithësej me orë shtesë)", @salary_e_n.round(2)]
+	sheet.add_row ["", "Pagesa Neto totale për orët shtesë", @extra_payment.round(2)]
+  
+end

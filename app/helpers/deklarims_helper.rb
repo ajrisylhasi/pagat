@@ -1,0 +1,2 @@
+module DeklarimsHelper
+end

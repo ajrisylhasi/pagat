@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  idnum: MyString
+  name: MyString
+  data_punes: 2020-09-24
+  lloji_pushimit: MyString
+  ditet_pushimit: MyString
+
+two:
+  idnum: MyString
+  name: MyString
+  data_punes: 2020-09-24
+  lloji_pushimit: MyString
+  ditet_pushimit: MyString

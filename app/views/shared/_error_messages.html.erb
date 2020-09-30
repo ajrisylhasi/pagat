@@ -1,0 +1,14 @@
+
+<% if @errors != nil %>
+	<% if @errors.count != 0 %>
+	  <center>
+	  	<div class="errorat">
+		  	<ul class="alert alert-danger"><a class="close" data-dismiss="alert">&#215;</a>
+		      <% @errors.each do |a| %>
+		        <li style="margin:15px"><%= a %></li>
+		      <% end %>
+		    </ul>
+		  </div>
+	  </center>
+	<% end %>
+<% end %>

@@ -1,0 +1,76 @@
+<div id="remote_container"></div>
+
+<div class="container">
+  <div>
+    <table style="height: 79px">
+      <tr>
+        <td width="70%" >
+          <div id="pagination">
+            <%= will_paginate @deklarims, renderer: BootstrapPagination::Rails, :previous_label => 'Prapa', id: "pagination", :next_label => 'Perpara', inner_window: 3, outer_window: 0  %>
+          </div>
+        </td> 
+        <td width="20%">
+          <div style="height: 75px">
+          </div>
+        </td>
+      </tr>
+    </table>
+
+  </div>
+  
+  <center>
+    <div style="padding-top: 15px;"><%= render 'shared/error_messages' %></div>
+    
+  <center><div style="width:450px"><%= render 'layouts/flash' %></div></center>
+  </center>
+  
+  
+  <div id="deklarims">
+    <% i = 0 %>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col"><button type="button" data-toggle="modal" data-target="#new_deklarim" style="border: 0px; padding: 0px; background: none; color: green;font-size: 21px">&#43;</button></th>
+          <th scope="col">Deklarimi</th>
+          <th scope="col"></th>
+          <th scope="col"></th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @deklarims.each do |a| %>
+        <tr>
+          <th scope="row"><%= @i += 1 %></th>
+          <td><%= a.muaji %></td>
+          <td><%= link_to a do %><span class="glyphicon glyphicon-eye-open" style="color: black; font-size: 20px"></span><% end%></td>
+          <td><center><%= link_to edit_deklarim_path(a), remote: true do %><span class="glyphicon glyphicon-pencil" style="color: black; font-size: 20px"></span><% end %></td></center>
+          <td><%= link_to a, method: :delete do %>
+            <span class="glyphicon glyphicon-minus" style="color: black; font-size: 20px"></span><% end %>
+          </td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="modal fade" id="new_deklarim" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <%= form_for @new_deklarim do |f| %>
+      <div class="modal-header">
+        <h3 class="modal-title" id="exampleModalLabel">Deklaro Pagat per Muajin</h3>
+      </div>
+      <div class="modal-body">
+        <%= f.label :muaji, "Muaji i deklarimit" %> <span style="color:red">*</span>
+        <%= f.text_field :muaji, class: 'form-control', style: "width: max-parent" %>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Mbylle</button>
+        <%= f.submit "Shto Produktin", class: "btn btn-primary" %>
+      </div>
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,29 @@
+<div class="container">
+	<center><div style="width:450px; margin-top: 0px;"><%= render 'layouts/flash' %></div></center>
+	<div class="jumbotron">
+		<h3>Mireseerdhet, <%= @current_user.name %>(<%= @current_user.idnum %>)</h3>
+		<%= link_to "Kerko Pushim", kerkesa_path, class: "btn btn-primary" %>
+		<%= link_to "Log Out", logout_user_path, method: :delete, class: "btn btn-primary" %>
+		<h4>Ditet te mbetura ne Pushimin Vjetor: <%= @current_user.pushimi_vjetor %></h4>
+		<h4>Ditet te mbetura ne Pushimin Mjekesor: <%= @current_user.pushimi_mjekesor %></h4>
+	</div>
+	<% @current_user.kerkesas.each do |k| %>
+		<div class="jumbotron" style="<% if k.finished %>background: #9ffcad;<% else %>background: #f57d5f;<% end %>">
+			<table>
+				<tr>
+					<td>	
+						<p>Kerkese per pushim te llojit: "<%= k.lloji_pushimit %>" nga <%= k.user.name %>(<%= k.user.idnum %>)</p>
+						<p>Periudha: <%= k.data_fillimit %> / <%= k.data_mbarimit %></p>
+						<p>
+							<% if k.file.attached? %>
+								<%= link_to k.file.filename,  rails_blob_path(k.file, disposition: :attachment) %>
+							<% end %>
+						</p>
+					</td>
+					<td width="10%">
+					</td>
+				</tr>
+			</table>
+		</div>
+	<% end %>
+</div>

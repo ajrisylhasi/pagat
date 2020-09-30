@@ -1,0 +1,190 @@
+<% content_for(:title, " - Punemarresit") %>
+<div class="container">
+	<center>
+		<div>
+			<button type="button" data-toggle="modal" data-target="#importModal" class="btn btn-primary">Importo Te Dhenat</button>
+			<button type="button" data-toggle="modal" data-target="#importModalOnline" class="btn btn-success">Online</button>
+		</div>
+	</center>
+	<div>
+		<table>
+			<tr>
+				<td width="70%"	>
+					<%= will_paginate @users, renderer: BootstrapPagination::Rails, :previous_label => 'Prapa', :next_label => 'Perpara'  %>
+				</td>	
+				<td width="20%">
+					<div style="">
+						<%= form_for "", url: users_url, role: "term", method: :get  do %>
+						<%= text_field_tag "term", @term, class: "form-control", style: "width:75%; margin: 0 0 5px 35px; float: right", id: "user_term", placeholder: "Kerko Perdoruesin" %>
+						<% end %>
+					</div>
+				</td>
+				<td width="10%">
+					<div style="">
+						<div style="padding: 0 0 5px 10px"><a href="/" style="font-size: 20px; cursor: pointer; text-decoration: none">&times;</a></div>
+					</div>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<center><div style="padding-top: 15px; width: 35%"><%= render 'shared/error_messages' %></div></center>
+	<center><div style="width:450px"><%= render 'layouts/flash' %></div></center>
+	<table class="table">
+		<thead>
+			<tr>
+				<th scope="col"><button type="button" data-toggle="modal" data-target="#exampleModal" style="border: 0px; padding: 0px; background: none; color: green;font-size: 21px">&#43;</button></th>
+				<th scope="col">ID</th>
+				<th scope="col">Emri</th>
+				<th scope="col">Tipi i Kontrates(Ore/Jave)</th>
+				<th scope="col">Paga Bruto(&#8364)</th>
+				<th scope="col"></th>
+				<th scope="col"></th>
+				<th scope="col"></th>
+			</tr>
+		</thead>
+		<tbody>
+			<% @users.each do |a| %>
+			<tr>
+				<th scope="row"><%= @i += 1 %></th>
+				<td><%= a.idnum %></td>
+				<td><%= a.name %></td>
+				<td><%= a.contract %> ore/ Jave</td>
+				<td><%= a.salary %> &#8364</td>
+				<td><%= link_to a do %><span class="glyphicon glyphicon-eye-open" style="color: black; font-size: 20px"></span><% end%></td>
+				<td><center><%= link_to edit_user_path(a) do %><span class="glyphicon glyphicon-pencil" style="color: black; font-size: 20px"></span><% end %></td></center>
+				<td><%= link_to a, method: :delete do %>
+					<span class="glyphicon glyphicon-minus" style="color: black; font-size: 20px"></span><% end %></td>
+				</tr>
+				<% end %>
+			</tbody>
+		</table>
+	</div>
+	<%= form_for(@user)do |f|%>
+	<div class="modal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="exampleModalLabel"><strong>Shto Punemarres të ri</strong></h4>
+				</div>
+				<div class="modal-body">
+					<%= f.label :name, "Emri" %>
+					<%= f.text_field :name, class: 'form-control' %>
+					<%= f.label :idnum, "ID Kodi" %>
+					<%= f.text_field :idnum, class: 'form-control' %>
+					<%= f.label :contract, "Tipi i Kontrates(Ore/Jave)" %>
+					<%= f.number_field :contract, class: 'form-control' %>
+					<%= f.label :salary, "Paga Bruto" %>
+					<%= f.number_field :salary, class: 'form-control' %>
+					<%= f.label :email %>
+					<%= f.email_field :email, class: 'form-control' %>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger" data-dismiss="modal">Mbylle</button>
+					<%= f.submit "Shto", class: "btn btn-primary" %>
+				</div>
+			</div>
+		</div>
+	</div>
+	<% end %>
+
+	<div class="modal" id="importModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<%= form_tag import_works_path, multipart:true, onchange: "check_file()" do %>
+				<div class="modal-header">
+					<h4 class="modal-title" id="exampleModalLabel"><strong>Importo te dhenat nga Excel</strong></h4>
+				</div>
+				<div class="modal-body">
+					<center>
+						<span class="btn btn-primary btn-file" id="fileInputSpan">
+							<span style="margin-top: 35px; font-size:35px" class="glyphicon glyphicon-download-alt"></span>
+							<%= file_field_tag :file, accept: ".xls,.xlsx", id: "file" %>
+						</span>
+					</center>
+				</div>
+				<div class="modal-footer">
+					<%= submit_tag "Shto te dhenat", class: "btn btn-primary", style: "margin: 10px", id: "import" %>
+				</div>
+				<% end %>
+			</div>
+		</div>
+	</div>
+	<div class="modal" id="importModalOnline" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<%= form_tag import_online_works_path, multipart:true, onchange: "check_file()" do %>
+				<div class="modal-header">
+					<h4 class="modal-title" id="exampleModalLabel"><strong>Importo te dhenat nga Excel Online</strong></h4>
+				</div>
+				<div class="modal-body">
+					<center>
+						<span class="btn btn-primary btn-file" id="fileInputSpanOnline">
+							<span style="margin-top: 35px; font-size:35px" class="glyphicon glyphicon-download-alt"></span>
+							<%= file_field_tag :file, accept: ".xls,.xlsx", id: "fileOnline" %>
+						</span>
+					</center>
+				</div>
+				<div class="modal-footer">
+					<%= submit_tag "Shto te dhenat", class: "btn btn-primary", style: "margin: 10px", id: "importOnline" %>
+				</div>
+				<% end %>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="waiting-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="top:30%">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header" style="height: 50px">
+					<center><h4 class="modal-title" id="exampleModalLabel"><strong>Duke u realizuar kalkulimet e Excel-it</strong></h4></center>
+				</div> 
+				<div class="modal-body">
+					<div id="animation-box"></div>
+					<center><h4 class="modal-title" id="exampleModalLabel" style="margin-top: 15px;"><strong>Ju lutem prisni derisa të realizohen kalkulimet.</strong></h4></center>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+
+		function show_slow_warning() {
+			$("#importModal").hide();
+			$("#waiting-modal").show();
+			$("#waiting-modal").modal({backdrop: "static", keyboard: false});
+		}
+		function check_file(){
+			str=document.getElementById('fileInputScan').value.toUpperCase();
+			suffix=".xls";
+			suffix2=".xlsx";
+			if(str.indexOf(suffix, str.length - suffix.length) == -1 ||
+				str.indexOf(suffix2, str.length - suffix2.length) == -1){
+				alert('Lloji i file-it nuk eshte i lejuar,\nFilet e lejuara jane: *.xls,*.xlsx');
+			document.getElementById('fileInputScan').value='';
+		}
+	};
+	document.getElementById('file').onchange = function () {
+		document.getElementById('fileInputSpan').classList.add("selected_files");
+		alert("File Chosen: "+ document.getElementById('file').value.replace(/^.*[\\\/]/, ''));
+	};
+	document.getElementById('fileOnline').onchange = function () {
+		document.getElementById('fileInputSpanOnline').classList.add("selected_files");
+		alert("File Chosen: "+ document.getElementById('fileOnline').value.replace(/^.*[\\\/]/, ''));
+	};
+
+	$("#import").click(function(){
+		show_slow_warning();
+	});
+
+
+
+	$("#user_term").on('blur', function() {
+		$(this).css( {'background': '#dee2e6'});
+		$(this).closest('form').submit();
+	});
+
+	$("#clearForm").click(function(){
+		$('#user_term').css( {'background': '#dee2e6'});
+		$('#user_term').val('');
+		$('#user_term').closest('form').submit();
+	});
+
+</script>

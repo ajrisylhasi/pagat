@@ -1,0 +1,181 @@
+<style>
+  .dropdown-menu {
+    min-width: 0px;
+    width: 100%;
+  }
+  .dropdown-item {
+    padding-left:12px;
+    display: block;
+    width:100%;
+  }
+  .dropdown-item:hover {
+    background-color: #f3f3f3
+  }
+  #ndrysho_ditet {
+    text-decoration: none;
+    color: #555555;
+  }
+
+</style>
+<center>
+  <div class="container" style="width:30%">
+    <div>
+      <%= form_for(@user)do |f|%>
+      <% if !(params[:errors].nil?) %>
+      <ul class="alert alert-danger"><a class="close" data-dismiss="alert">&#215;</a>
+        <% params[:errors].each do |a| %>
+        <li style="margin:15px"><%= a %></li>
+        <% end %>
+      </ul>
+      <% end %> 
+      <div>
+        <%= f.submit "Ndrysho", class: "btn btn-primary", style: "margin-top: 15px" %><br><br>
+        <%= f.label :name, "Emri" %>
+        <%= f.text_field :name, class: 'form-control' %>
+        <%= f.label :idnum, "Numri ID" %>
+        <%= f.text_field :idnum, class: 'form-control' %>
+        <div class="row">
+          <div class="col-xs-10" style="padding:0px 2px 0px 15px">
+            <% if @user.spec_contract == false %>
+            <%= f.label :contract, "Tipi i Kontrates(Ore/Jave)" %>
+            <%= f.number_field :contract, class: 'form-control' %>
+            <% else %>
+            <%= f.label :contract, "Ndrysho Ditet ne Kontrate" %>
+            <%= link_to "Totali i Oreve: #{@user.specific_contract.total}", spec_cont_path(@user), class: 'form-control', id: "ndrysho_ditet" %>
+            <% end %>
+          </div>
+          <div class="col-xs-2" style="padding:0px 15px 0px 2px">
+            <%= f.label :specific_contract, "Specifike" %>
+            <div class="dropdown">
+              <button class="form-control dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <table>
+                  <tr>
+                    <td style="width:80%; text-align:left">
+                      <% if @user.spec_contract == true %>
+                      <span class="glyphicon glyphicon-ok" style="color: green"></span>
+                      <% else %>
+                      <span class="glyphicon glyphicon-remove" style="color: #cf3838"></span>
+                      <% end %>
+                    </td>
+                    <td style="width:20%text-align:right">
+                      <span class="caret"></span>
+                    </td>
+                  </tr>
+                </table>
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <% if @user.spec_contract == true %>
+                <a class="dropdown-item" href="specific_contract" data-method="post"><span class="glyphicon glyphicon-remove" style="color: #cf3838"></span></a>
+                <% else %>
+                <a class="dropdown-item" href="specific_contract" data-method="post"><span class="glyphicon glyphicon-ok" style="color: green"></span></a>
+                <% end %>
+                
+              </div>
+            </div>
+          </div>  
+        </div>
+        <%= f.label :salary, "Paga Bruto" %>
+        <%= f.number_field :salary, step: :any, class: 'form-control' %>
+        <%= f.label :email %>
+        <%= f.email_field :email, class: 'form-control' %>
+        <%= f.label :salary_type, "Tipi i Pages" %>
+        <%= f.select :salary_type, ["Primare", "Sekondare"],{}, class: 'form-control' %>
+        <%= f.label :salary_type, "Gjatesia e Pushimit" %>
+        <%= f.select :shkurt_pushim, [["40 Minuta", false],[ "30 Minuta", true ]],{}, class: 'form-control' %>
+
+        <%= f.label :salary_type, "Ditet e pushimit" %>
+        
+        <%= form_for "", url: edit_user_url(@user), role: "ndryshimi_pushimit", method: :get  do %>
+        <%= hidden_field_tag "ndryshimi_pushimit", "true" %>
+        <div class="dropdown">
+          <button class="form-control dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <% if @user.ditet_pushim.count == 0 %>Selekto Ditet<% else %><%= @user.ditet_pushim.join(" | ") %><% end %>
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item">
+              <table>
+                <td>
+                  <%= check_box_tag( :mon, true, @user.pushimet[0], class: "check_tag")%>
+                </td>
+                <td >
+                  <p style="margin: 0px 0 0 30px">E Hënë</p>
+                </td>
+              </table>
+            </a>
+            <a class="dropdown-item">
+              <table>
+                <td>
+                  <%= check_box_tag( :tue, true, @user.pushimet[1], class: "check_tag")%>
+                </td>
+                <td >
+                  <p style="margin: 0px 0 0 30px">E Martë</p>
+                </td>
+              </table>
+            </a>
+            <a class="dropdown-item">
+              <table>
+                <td>
+                  <%= check_box_tag( :wed, true, @user.pushimet[2], class: "check_tag")%>
+                </td>
+                <td >
+                  <p style="margin: 0px 0 0 30px">E Mërkurë</p>
+                </td>
+              </table>
+            </a>
+            <a class="dropdown-item">
+              <table>
+                <td>
+                  <%= check_box_tag( :thur, true, @user.pushimet[3], class: "check_tag")%>
+                </td>
+                <td >
+                  <p style="margin: 0px 0 0 30px">E Enjte</p>
+                </td>
+              </table>
+            </a>
+            <a class="dropdown-item">
+              <table>
+                <td>
+                  <%= check_box_tag( :fri, true, @user.pushimet[4], class: "check_tag")%>
+                </td>
+                <td >
+                  <p style="margin: 0px 0 0 30px">E Premte</p>
+                </td>
+              </table>
+            </a>
+            <a class="dropdown-item">
+              <table>
+                <td>
+                  <%= check_box_tag( :sat, true, @user.pushimet[5], class: "check_tag")%>
+                </td>
+                <td >
+                  <p style="margin: 0px 0 0 30px">E Shtunë</p>
+                </td>
+              </table>
+            </a>
+            <a class="dropdown-item">
+              <table>
+                <td>
+                  <%= check_box_tag( :sun, true, @user.pushimet[6], class: "check_tag")%>
+                </td>
+                <td >
+                  <p style="margin: 0px 0 0 30px">E Diel</p>
+                </td>
+              </table>
+            </a>
+          </div>
+        </div>
+        <%= f.label :pushimi_vjetor %>
+        <%= f.number_field :pushimi_vjetor, class: 'form-control' %>
+        <%= f.label :pushimi_mjekesor %>
+        <%= f.number_field :pushimi_mjekesor, class: 'form-control' %>
+        <% end %>
+      </div>
+      <% end %>
+    </div>
+  </div>
+</center>
+<script>
+  $(".check_tag").click(function(){
+    $('.check_tag').closest('form').submit();
+  });
+</script>
