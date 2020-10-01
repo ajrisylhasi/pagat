@@ -217,8 +217,6 @@ class UsersController < ApplicationController
       
     end
     @user.works.build
-
-    
   end
 
 

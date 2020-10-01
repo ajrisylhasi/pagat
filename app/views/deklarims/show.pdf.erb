@@ -1,0 +1,45 @@
+<table class="table">
+    <thead>
+      <h3>Deklarimi i pagave të punonjësve të Kompanisë Albina Dyla në Gjakovë për muajin <%= @deklarim.muaji %> 2020</h3>              
+      <tr>
+        <th scope="col" style="">#</th>
+        <th scope="col">Emri</th>
+        <th scope="col">Mbiemri</th>
+        <th scope="col">Numri Individual i punëtorit</th>
+        <th scope="col">Bruto paga për muaj</th>
+        <th scope="col">Kontributi pensional i të punësuarit</th>
+        <th scope="col">Kontributi pensional i punëdhënësit</th> 
+        <th scope="col">Kontributi suplementar i të punësuarit</th>
+        <th scope="col">Kontributi suplementar i punëdhënësit</th>
+        <th scope="col">Punë Primare</th>
+        <th scope="col">Përfshihen Kontributet</th>
+        <th scope="col">Aplikohet Tatimi në Paga</th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @pagas.each do |a| %>
+      <tr>
+        <th scope="row"><%= @i+=1 %></th>
+        <td><%= a.user.name.split[0] %></td>
+        <td><%= a.user.name.split[1] %></td>
+        <td><%= a.user.personal_number %></td>
+        <td><%= a.paga_bruto.round %>€</td>
+        <td><%= a.kontributi_pension.round(2) %></td>
+        <td><%= a.kontributi_pension.round(2) %></td>
+        <td><%= a.kontributi_sup.round(2) %></td>
+        <td><%= a.kontributi_sup.round(2) %></td>
+        <td><%= a.pune_primare %></td>
+        <td><%= a.perfsh_kont %></td>
+        <td><%= a.apli_tat %></td>
+        <td><%= link_to edit_paga_path(a), remote: true do %>
+          <span class="glyphicon glyphicon-pencil" style="font-size: 18px"></span><% end %>
+        </td>
+        <td><%= link_to a, method: :delete do %>
+          <span class="glyphicon glyphicon-trash" style="color: red; font-size: 18px"></span><% end %>
+        </td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>

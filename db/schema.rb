@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_28_090327) do
+ActiveRecord::Schema.define(version: 2020_10_01_071934) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -88,6 +88,12 @@ ActiveRecord::Schema.define(version: 2020_09_28_090327) do
     t.datetime "updated_at", precision: 6, null: false
     t.date "date_from"
     t.date "date_to"
+    t.float "paga_bruto"
+    t.float "kontributi_pension"
+    t.float "kontributi_sup"
+    t.string "pune_primare"
+    t.string "perfsh_kont"
+    t.string "apli_tat"
     t.index ["deklarim_id"], name: "index_pagas_on_deklarim_id"
     t.index ["user_id"], name: "index_pagas_on_user_id"
   end
@@ -129,6 +135,7 @@ ActiveRecord::Schema.define(version: 2020_09_28_090327) do
     t.boolean "shkurt_pushim"
     t.integer "pushimi_vjetor"
     t.integer "pushimi_mjekesor"
+    t.string "personal_number"
   end
 
   create_table "works", force: :cascade do |t|

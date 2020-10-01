@@ -44,6 +44,14 @@
         <div class="header" id="myHeader">
           <%= link_to (image_tag 'Logo.png', style: "height: 50px; width: 50px; border-radius: 25px"), admins_path, class: "headerPic", style: "float:left; margin: 20px 0 0 20px; moz-box-shadow: 0px 6px 29px 0px rgba(0,0,0,0.75)" %>
         </div>
+      <% elsif controller_name == "deklarims" && action_name == "show" %>
+        <div class="header" id="myHeader">
+          <%= link_to (image_tag 'Logo.png', style: "height: 50px; width: 50px; border-radius: 25px"), deklarims_path, class: "headerPic", style: "float:left; margin: 20px 0 0 20px; moz-box-shadow: 0px 6px 29px 0px rgba(0,0,0,0.75)" %>
+        </div>
+      <% elsif controller_name == "deklarims" && action_name == "index" %>
+        <div class="header" id="myHeader">
+          <%= link_to (image_tag 'Logo.png', style: "height: 50px; width: 50px; border-radius: 25px"), admins_path, class: "headerPic", style: "float:left; margin: 20px 0 0 20px; moz-box-shadow: 0px 6px 29px 0px rgba(0,0,0,0.75)" %>
+        </div>
       <% else %>
         <div class="header" id="myHeader">
           <%= link_to (image_tag 'Logo.png', style: "height: 50px; width: 50px; border-radius: 25px"), users_path, class: "headerPic", style: "float:left; margin: 20px 0 0 20px; moz-box-shadow: 0px 6px 29px 0px rgba(0,0,0,0.75)" %>

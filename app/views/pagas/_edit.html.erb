@@ -1,0 +1,30 @@
+<%= form_for @paga do |f|%>
+
+  <div class="modal" id="edit_paga" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="exampleModalLabel"><strong>Ndrysho pagen e Deklaruar</strong></h4>
+        </div>
+        <div class="modal-body">
+          <%= f.label :paga_bruto %>
+          <%= f.number_field :paga_bruto, step: :any, class: 'form-control' %>
+          <%= f.label :kontributi_pension %>
+          <%= f.number_field :kontributi_pension, step: :any, class: 'form-control' %>
+          <%= f.label :kontributi_sup %>
+          <%= f.number_field :kontributi_sup, step: :any, class: 'form-control' %>
+          <%= f.label :pune_primare %>
+          <%= f.text_field :pune_primare, class: 'form-control' %>
+          <%= f.label :perfsh_kont, "Perfshihen Kontributet" %>
+          <%= f.text_field :perfsh_kont, class: 'form-control' %>
+          <%= f.label :apli_tat, "Aplikohet Tatimi ne Paga" %>
+          <%= f.text_field :apli_tat, class: 'form-control' %>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Mbylle</button>
+          <%= f.submit "Ndrysho", class: "btn btn-primary" %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

@@ -32,7 +32,7 @@ class SessionsController < ApplicationController
         redirect_to login_user_path
       elsif user.idnum == params[:session][:idnum]
         log_in_user(user)
-        redirect_to kerkesa_path
+        redirect_to show_path
         return
       end
     else

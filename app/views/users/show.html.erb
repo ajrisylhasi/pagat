@@ -42,7 +42,7 @@
 		</tr>
 	</table>
 	<%= render 'shared/error_messages' %>
-	<center><div style="width:450px"><%= render 'layouts/flash' %></div></center>
+	<center><div style="width:450px; margin: 50px 0 25px"><%= render 'layouts/flash' %></div></center>
 	<table class="table">
 	  <thead>
 	    <tr>
@@ -181,7 +181,7 @@
 		<%= link_to image_tag('excel_icon.svg', style: "width: 50px;height:50px"), gen_xl_path(date_from: @date_from, date_to: @date_to)%>
 		<%= link_to image_tag('email_icon.svg', style: "width: 120px;height:75px"), send_mail_path(date_from: @date_from, date_to: @date_to), id:"email-button" %>
 	<% end %>
-	<%= link_to "Deklaro pagen", deklaro_pagen_path(a, date_from: @date_from, @date_to), method: :post do %>
+	<%= link_to "Deklaro Pagen", deklaro_pagen_path(kontributi_pension: [@salary_e, @sig_e]), method: :post %>
 </div>
 <%= form_for @user do |f|%>
 

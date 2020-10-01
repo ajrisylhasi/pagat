@@ -269,6 +269,33 @@
     Log.create(admin: @current_admin, text: text)
 	end
 
+  def import_personal_number(file)
+    if File.extname(file.path) == ".xls"
+      data = Roo::Excel.new(file.path, extension: :xls) 
+    else
+      data = Roo::Excelx.new(file.path, extension: :xlsx) 
+    end
+    pushim_dates = Pushim.all
+    users = []
+    work = 0
+    
+    $val = []
+    data.each_with_index do |row, idx|
+      i = 0
+      if idx <= 3
+        next
+      end
+      user = User.find_by(name: row[1] + " " + row[2])
+      if user == nil
+        next
+      else
+        next if row[3] == ""
+        user.personal_number = row[3]
+        user.save
+      end
+    end
+  end
+
   def import_it_online(file)
     if File.extname(file.path) == ".xls"
       data = Roo::Excel.new(file.path, extension: :xls) 
@@ -285,15 +312,10 @@
       if idx == 0
         next
       end
-
-      user = User.find_by(idnum: row[3])
-      user = User.find_by(name: row[2]) if user == nil
+      user = User.find_by(name: row[1] + " " + row[2])
       if user == nil
-        # import_it_us_online(file)
-        # user = User.find_by(idnum: row[2-i])
         next
       end
-      dep = row[5].split(".")[1] if row[5] != nil 
       # if dep == "1"
       #   i = 8
       # elsif dep == "2"
@@ -318,33 +340,33 @@
       #   i = 97
       # elsif dep == "12"
       #   i = 113
+      # # end
+      # if dep != "12"
+      #   next
       # end
-      if dep != "12"
-        next
-      end
 
-      shrow = []
-      te_dhenat = []
+      # shrow = []
+      # te_dhenat = []
       
-      row.each do |r|
-        n = 0
-        if row[0..5].include? r
-          i += 1
-          next
-        end
-        if r == nil
-          i+=1
-          next
-        end
-        n+=1
-        i+=1
-        if n==4
-          r = data.excelx_value(idx, i)
-        end
-        shrow << [r,i]
-      end
-      te_dhenat << shrow
-      $val << "#{idx} - #{te_dhenat}"
+      # row.each do |r|
+      #   n = 0
+      #   if row[0..5].include? r
+      #     i += 1
+      #     next
+      #   end
+      #   if r == nil
+      #     i+=1
+      #     next
+      #   end
+      #   n+=1
+      #   i+=1
+      #   if n==4
+      #     r = data.excelx_value(idx, i)
+      #   end
+      #   shrow << [r,i]
+      # end
+      # te_dhenat << shrow
+      # $val << "#{idx} - #{te_dhenat}"
 
 
       # case work.start.strftime("%A")

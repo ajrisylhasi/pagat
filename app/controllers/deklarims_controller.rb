@@ -10,7 +10,7 @@ class DeklarimsController < ApplicationController
 	end
 
 	def create
-		@deklarim = Deklarim.new(deklarim_params)
+		@deklarim = Deklarim.new deklarim_params
 		if @deklarim.save
 			flash[:success] = "Deklarimi u krijua"
 			redirect_to deklarims_path
@@ -36,13 +36,22 @@ class DeklarimsController < ApplicationController
 	end
 
 	def show
+		@i = 0
 		@deklarim = Deklarim.find(params[:id])
 		@pagas = @deklarim.pagas
-		params[:page] ||= (@pagas.all.count/10.0).ceil
-		if params[:page] == 0 
-			params[:page] = 1
-		end
-		@pagas = @pagas.all.paginate(:page => params[:page], :per_page=>10)		
+		respond_to do |format|
+			format.html
+			format.json
+			format.pdf { render pdf: "Deklarimi-#{@deklarim.muaji}", orientation: 'Portrait' }
+			format.xlsx 
+		end	
+	end
+
+	def show_xl
+		@i = 0
+		@deklarim = Deklarim.find(params[:id])
+		@pagas = @deklarim.pagas
+		render xlsx: "Deklarimi per muajin #{@deklarim.muaji}", template: "deklarims/show.xlsx.axlsx" 
 	end
 
 	private

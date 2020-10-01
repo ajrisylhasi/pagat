@@ -31,6 +31,7 @@ Rails.application.routes.draw do
 
   post '/kerkesas/:id/finish_kerkesa', to: "pushimes#finish_kerkesa", as: :finish_kerkesa
 
+  get 'deklarims/:id/show_xl', to: "deklarims#show_xl", as: :deklarim_xl
   get 'users/:id/gen_xl', to: 'users#gen_xl', as: :gen_xl
   get 'users/:id/gen_specific_xl', to: 'users#gen_specific_xl', as: :gen_specific_xl
   get 'users/:id/send_mail', to: 'users#send_email', as: :send_mail

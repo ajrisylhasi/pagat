@@ -1,17 +1,6 @@
 <div id="remote_container"></div>
 <div class="container">
-	<table width="100%">
-		<tr>
-			<td width="70%" >
-				<div id="pagination">
-					<%= will_paginate @pagas, renderer: BootstrapPagination::Rails, :previous_label => 'Prapa', id: "pagination", :next_label => 'Perpara', inner_window: 3, outer_window: 0  %>
-				</div>
-			</td> 
-			<td>
-				<div style="height:75px"></div>
-			</td>
-		</tr>
-	</table>
+	<%= link_to image_tag('excel_icon.svg', style: "width: 50px;height:50px"), deklarim_xl_path %>
 	<%= render 'shared/error_messages' %>
 	<center><div style="width:450px"><%= render 'layouts/flash' %></div></center>
 	<table class="table">
@@ -40,6 +29,18 @@
 				<th scope="row"><%= @i+=1 %></th>
 				<td><%= a.user.name.split[0] %></td>
 				<td><%= a.user.name.split[1] %></td>
+				<td><%= a.user.personal_number %></td>
+				<td><%= a.paga_bruto.round %>€</td>
+				<td><%= a.kontributi_pension.round(2) %></td>
+				<td><%= a.kontributi_pension.round(2) %></td>
+				<td><%= a.kontributi_sup.round(2) %></td>
+				<td><%= a.kontributi_sup.round(2) %></td>
+				<td><%= a.pune_primare %></td>
+				<td><%= a.perfsh_kont %></td>
+				<td><%= a.apli_tat %></td>
+				<td><%= link_to edit_paga_path(a), remote: true do %>
+					<span class="glyphicon glyphicon-pencil" style="font-size: 18px"></span><% end %>
+				</td>
 				<td><%= link_to a, method: :delete do %>
 					<span class="glyphicon glyphicon-trash" style="color: red; font-size: 18px"></span><% end %>
 				</td>

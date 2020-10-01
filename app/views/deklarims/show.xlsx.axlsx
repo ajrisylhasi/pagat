@@ -1,0 +1,26 @@
+wb = xlsx_package.workbook
+wb.styles do |style|
+  normal_text = style.add_style(:font_name => "Times New Roman", alignment: {horizontal: :center}, border: Axlsx::STYLE_THIN_BORDER)
+  bold_text = style.add_style(:b => true, :font_name => "Times New Roman", alignment: {horizontal: :center})
+  highlight_cell = style.add_style(bg_color: "ccc0d9",
+                                   border: Axlsx::STYLE_THIN_BORDER,
+                                   alignment: { horizontal: :center },
+                                   :b => true,
+                                   :font_name => "Times New Roman",
+                                   alignment: {wrap_text: true, horizontal: :center, vertical: :center})
+
+  wb.add_worksheet(name: "Deklarimi #{@deklarim.muaji}") do |sheet|
+  	
+    sheet.add_row ["", "Deklarimi i pagave të punonjësve të Kompanisë Albina Dyla në Gjakovë për muajin KORRIK 2020",""], style: [nil, bold_text]
+    sheet.add_row ["Nr. Rendor", "Emri", "Mbiemri", "Numri Individual i punëtorit", "Bruto paga për muaj", 
+    							 "Kontributi pensional i të punësuarit", "Kontributi pensional i punëdhënësit", "Kontributi suplementar i të punësuarit",
+    							 "Kontributi suplementar i punëdhënësit", "Punë Primare", "Përfshihen Kontributet", "Aplikohet Tatimi në Paga"], style: [highlight_cell, highlight_cell, highlight_cell, highlight_cell, highlight_cell, highlight_cell, highlight_cell, highlight_cell, highlight_cell, highlight_cell, highlight_cell, highlight_cell], height: 40
+    sheet.add_row ["", "a", "b", "c", "d", "e=(d*5%)", "f=(d*5%)", "g", "h", "i", "j", "k"], style: [highlight_cell, highlight_cell, highlight_cell, highlight_cell, highlight_cell, highlight_cell, highlight_cell, highlight_cell, highlight_cell, highlight_cell, highlight_cell, highlight_cell]
+    @pagas.each do |a|
+    	sheet.add_row [@i+=1, a.user.name.split[0],a.user.name.split[1], a.user.personal_number, a.paga_bruto.round, a.kontributi_pension.round(2),
+    				   a.kontributi_pension.round(2), a.kontributi_sup.round(2), a.kontributi_sup.round(2), a.pune_primare, a.perfsh_kont, a.apli_tat], style: [normal_text, normal_text, normal_text, normal_text, normal_text, normal_text, normal_text, normal_text, normal_text, normal_text, normal_text, normal_text]
+    end
+    sheet.merge_cells  Axlsx::cell_r(1,0) + ':' + Axlsx::cell_r(10,0)
+    sheet.column_widths *[15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15] 
+  end
+end
