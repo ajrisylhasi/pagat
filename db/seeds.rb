@@ -5,4 +5,8 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-Admin.create(name: "Ajri", email: "ajrisylhasi@albinadyla.com", lang: "Anglisht", sending_mail: "humanresources@albinadyla.com", password: "alalalal", password_confirmation: "alalalal")
+# Admin.create(name: "Ajri", email: "ajrisylhasi@albinadyla.com", lang: "Anglisht", sending_mail: "humanresources@albinadyla.com", password: "alalalal", password_confirmation: "alalalal")
+User.all.each do |u|
+	u.data_fillimit ||= Date.new(Date.today.year, 1, 1)
+	u.save
+end
