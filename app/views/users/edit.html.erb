@@ -80,13 +80,15 @@
         <%= f.email_field :email, class: 'form-control' %>
         <%= f.label :personal_number, "Numri Personal" %>
         <%= f.email_field :personal_number, class: 'form-control' %>
+        <%= f.label :data_fillimit, "Data e Fillimit te Punes" %>
+        <%= f.date_field :data_fillimit, class: 'form-control' %>
         <%= f.label :salary_type, "Tipi i Pages" %>
         <%= f.select :salary_type, ["Primare", "Sekondare"],{}, class: 'form-control' %>
         <%= f.label :salary_type, "Gjatesia e Pushimit" %>
         <%= f.select :shkurt_pushim, [["40 Minuta", false],[ "30 Minuta", true ]],{}, class: 'form-control' %>
 
         <%= f.label :salary_type, "Ditet e pushimit" %>
-        
+        <% end %>
         <%= form_for "", url: edit_user_url(@user), role: "ndryshimi_pushimit", method: :get  do %>
         <%= hidden_field_tag "ndryshimi_pushimit", "true" %>
         <div class="dropdown">
@@ -166,11 +168,7 @@
             </a>
           </div>
         </div>
-        <%= f.label :pushimi_vjetor %>
-        <%= f.number_field :pushimi_vjetor, class: 'form-control' %>
-        <%= f.label :pushimi_mjekesor %>
-        <%= f.number_field :pushimi_mjekesor, class: 'form-control' %>
-        <% end %>
+        
       </div>
       <% end %>
     </div>

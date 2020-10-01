@@ -13,14 +13,6 @@
     <div class="faqja_1">
       <div class="top-row">
         <div class="field-wrap">
-          <%= f.label :data_punes, "Data e fillimit te Punes" %> <span class="star" style="color:red">*</span>
-          <%= f.date_field :data_punes, autocomplete:"off", class: 'form-control', style: "height: 38px" %>
-          <div id="error_data_punes"><p>Nuk mund te jete zbrazet fusha</p><br></div>
-        </div>
-      </div>
-      <br>
-      <div class="top-row">
-        <div class="field-wrap">
           <%= f.label :lloji_pushimit, "Lloji i pushimit" %> <span class="star" style="color:red">*</span>
           <%= f.select :lloji_pushimit, [["Pushim Vjetor", "Pushim Vjetor"],[ "Pushim Mjekesor", "Pushim Mjekesor" ]],{}, class: 'form-control' %>
           <div id="error_lloji_pushimit"><p>Nuk mund te jete zbrazet fusha</p><br></div>
@@ -44,14 +36,6 @@
           <%= f.label :data_mbarimit, "Data e mbarimit te Pushimit Vjetor" %> <span class="star" style="color:red">*</span>
           <%= f.date_field :data_mbarimit, class: 'form-control', style: "height: 38px" %>
           <div id="error_data_mbarimit"><p>Nuk mund te jete zbrazet fusha</p><br></div>
-        </div>
-      </div>
-      <br>
-      <div class="top-row">
-        <div class="field-wrap">
-          <%= f.label :numri_diteve, "Numri i Diteve Te Pushimit Vjetor" %> <span class="star" style="color:red">*</span>
-          <%= f.number_field :numri_diteve, autocomplete:"off", class: 'form-control', style: "height: 38px" %>
-          <div id="error_numri_diteve"><p>Nuk mund te jete zbrazet fusha</p><br></div>
         </div>
       </div>
       <br>

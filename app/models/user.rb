@@ -11,6 +11,7 @@ class User < ApplicationRecord
 	accepts_nested_attributes_for :works, allow_destroy: true
 		
 	def default
+    self.data_fillimit ||= Date.new(Date.today.year, 1, 1)
     self.shkurt_pushim ||= false
     self.spec_contract ||= false
 		self.contract ||= 40
@@ -75,5 +76,29 @@ class User < ApplicationRecord
       break if i == 7
     end
     return str
+  end
+
+  def pushimi_vjetor
+    muajt = (self.data_fillimit.month..Date.today.month).count
+    pushimi = muajt * 1.5
+    minus = 0
+    self.kerkesas.each do |k|
+      if k.finished && k.lloji_pushimit == "Pushim Vjetor"
+        minus += k.numri_diteve
+      end
+    end
+    return pushimi - minus
+  end
+
+  def pushimi_mjekesor
+    muajt = (self.data_fillimit.month..Date.today.month).count
+    pushimi = muajt * 1.5
+    minus = 0
+    self.kerkesas.each do |k|
+      if k.finished && k.lloji_pushimit == "Pushim Mjekesor"
+        minus += k.numri_diteve
+      end
+    end
+    return pushimi - minus
   end
 end
