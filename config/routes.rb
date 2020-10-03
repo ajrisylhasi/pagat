@@ -3,15 +3,15 @@ Rails.application.routes.draw do
   resources :deklarims
   resources :admins
   resources :pushims
+	root 'users#index'
 
   post "/kerkesas", to: "pushimes#kerkesa_create"
-  delete "/:id", to: "pushimes#kerkesa_destroy", as: :destroy_kerkesa
+  delete "kerkesas/:id", to: "pushimes#kerkesa_destroy", as: :destroy_kerkesa
   get "/kerkesa", to: "pushimes#kerkesa"
   get "/kerkesas", to: "pushimes#kerkesas"
   get "/show", to: "pushimes#show"
   delete "/kerkesas/delete_image_attachment", to: "pushimes#delete_image_attachment"
 
-	root 'users#index'
 
   get 'sessions/new', to: "sessions#new", as: :login
   get 'sessions/new_user', to: "sessions#new_user", as: :login_user
