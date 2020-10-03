@@ -39,7 +39,7 @@ module SessionsHelper
   def go_login
     unless logged_in?
       flash[:danger] = "Duhet te kyqeni paraprakisht."
-      redirect_to login_user_path
+      redirect_to login_path
     end
   end
 
