@@ -1,6 +1,6 @@
 class PushimesController < ApplicationController
 	skip_before_action :go_login, except: [:kerkesas]
-	before_action :go_login_user, except: [:kerkesas, :kerkesa_destroy]
+	before_action :go_login_user, except: [:kerkesas]
 
 	def kerkesa
 		@kerkesa ||= Kerkesa.new
@@ -11,7 +11,6 @@ class PushimesController < ApplicationController
 
 	def kerkesa_destroy
 		@kerkesa = Kerkesa.find(params[:id])
-		PagasMailer.with(user: @current_user, kerkesa: @kerkesa, admin: @current_admin).pushim_destroy.deliver_now
 		@kerkesa.destroy
 		redirect_to kerkesas_path
 	end
@@ -44,13 +43,8 @@ class PushimesController < ApplicationController
 		result = result.select { |k| !(pushim_dates.any? { |p| p.date == k})}
 		data[:numri_diteve] = result.count
 		@kerkesa = Kerkesa.new(data)
-		if start > Date.new(Date.today.year, 6,30) && data[:lloji_pushimit] == "Pushim Vjetor" && @kerkesa.numri_diteve > @current_user.pushimi_vjetor_sivjet
-			flash[:danger] = "Nuk keni dite te mjatueshme"
-			redirect_to show_path
-		elsif start > Date.new(Date.today.year, 6,30) && data[:lloji_pushimit] == "Pushim Mjekesor" && @kerkesa.numri_diteve > @current_user.pushimi_mjekesor_sivjet
-			flash[:danger] = "Nuk keni dite te mjatueshme"
-			redirect_to show_path
-		elsif data[:lloji_pushimit] == "Pushim Vjetor" && @kerkesa.numri_diteve > @current_user.pushimi_vjetor
+
+		if data[:lloji_pushimit] == "Pushim Vjetor" && @kerkesa.numri_diteve > @current_user.pushimi_vjetor
 			flash[:danger] = "Nuk keni dite te mjatueshme"
 			redirect_to show_path
 		elsif data[:lloji_pushimit] == "Pushim Mjekesor" && @kerkesa.numri_diteve > @current_user.pushimi_mjekesor
@@ -58,7 +52,6 @@ class PushimesController < ApplicationController
 			redirect_to show_path
 		elsif @kerkesa.save
 			flash[:success] = "Kerkesa u dergua me sukses"
-			PagasMailer.with(user: @current_user, kerkesa: @kerkesa).pushim_email.deliver_now
 			redirect_to show_path
 		else
 			render "kerkesa"
@@ -97,7 +90,6 @@ class PushimesController < ApplicationController
 		else
 			@kerkesa.finished = true
 			@kerkesa.save
-			PagasMailer.with(user: @current_user, kerkesa: @kerkesa, admin: @current_admin).pushim_confirm.deliver_now
 			redirect_to kerkesas_path
 		end
 	end
