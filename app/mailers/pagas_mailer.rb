@@ -244,7 +244,6 @@ class PagasMailer < ApplicationMailer
          address: "smtp.gmail.com" })
     end
   end
-
   def pushim_destroy
     admin = params[:admin]
     @user = params[:user]
