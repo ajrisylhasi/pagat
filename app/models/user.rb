@@ -16,6 +16,13 @@ class User < ApplicationRecord
     self.spec_contract ||= false
 		self.contract ||= 40
 		self.salary ||= 400
+    if self.idnum.include? "IDGJ"
+      self.place = "Gjakove"
+    elsif self.idnum.include? "IDFK"
+      self.place = "Prishtine"
+    else
+      self.place = "Gjakove"
+    end
 		self.salary_type ||= "Primary"
 		self.sales ||= 0
 	end

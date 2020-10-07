@@ -83,29 +83,29 @@ class PagasMailer < ApplicationMailer
       @salary_e_n = @salary_e - (@sig_e + @tatimi_e)
       @extra_payment ||= @salary_e_n - @salary_neto
     else
-	  	return
-	  end
+      return
+    end
 
     attachments["Pagesa mujore per #{@user.name} - #{@date_from}/ #{@date_to}.pdf"] = WickedPdf.new.pdf_from_string(
-	      render_to_string(pdf: 'pdf', template: 'users/pdf.pdf.erb', layout: 'pdf.pdf.erb')
-	    )
+     render_to_string(pdf: 'pdf', template: 'users/pdf.pdf.erb', layout: 'pdf.pdf.erb')
+     )
     if @current_admin.sending_mail == "humanresources@albinadyla.com"
-        mail(:to => @user.email,
-           :subject => "Pagesa mujore për periudhën #{@date_from} - #{@date_to}",
-           delivery_method_options: { user_name: "humanresources@albinadyla.com",
-                         password: "qtjkkzsrhkjnsdly",
-                         address: "smtp.gmail.com" })
-      elsif @current_admin.sending_mail == "humanresources.pr@albinadyla.com"
-        mail(:to => @user.email,
-           :subject => "Pagesa mujore për periudhën #{@date_from} - #{@date_to}",
-           delivery_method_options: { user_name: "humanresources.pr@albinadyla.com",
-                         password: "mqekbmclvezuzjks",
-                         address: "smtp.gmail.com" })
-      end
+      mail(:to => @user.email,
+       :subject => "Pagesa mujore për periudhën #{@date_from} - #{@date_to}",
+       delivery_method_options: { user_name: "humanresources@albinadyla.com",
+         password: "qtjkkzsrhkjnsdly",
+         address: "smtp.gmail.com" })
+    elsif @current_admin.sending_mail == "humanresources.pr@albinadyla.com"
+      mail(:to => @user.email,
+       :subject => "Pagesa mujore për periudhën #{@date_from} - #{@date_to}",
+       delivery_method_options: { user_name: "humanresources.pr@albinadyla.com",
+         password: "mqekbmclvezuzjks",
+         address: "smtp.gmail.com" })
+    end
   end
 
-	def paga_email
-		@date_from = Date.parse(params[:date_from]) rescue ""
+  def paga_email
+    @date_from = Date.parse(params[:date_from]) rescue ""
     @date_to = Date.parse(params[:date_to]) rescue ""
     @user = User.find(params[:user].id)
     @current_admin = params[:current_admin]
@@ -180,64 +180,86 @@ class PagasMailer < ApplicationMailer
       end
       @salary_e_n = @salary_e - (@sig_e + @tatimi_e)
       @extra_payment ||= @salary_e_n - @salary_neto
-	  else
-	  	return
-	  end
-  	 attachments["Pagesa mujore për periudhën #{@date_from} - #{@date_to}.pdf"] = WickedPdf.new.pdf_from_string(
-        render_to_string(pdf: 'pdf', template: 'users/pdf.pdf.erb', layout: 'pdf.pdf.erb')
+    else
+      return
+    end
+    attachments["Pagesa mujore për periudhën #{@date_from} - #{@date_to}.pdf"] = WickedPdf.new.pdf_from_string(
+      render_to_string(pdf: 'pdf', template: 'users/pdf.pdf.erb', layout: 'pdf.pdf.erb')
       )
-      if @current_admin.sending_mail == "humanresources@albinadyla.com"
-        mail(:to => @user.email,
-	         :subject => "Pagesa mujore për periudhën #{@date_from} - #{@date_to}",
-           delivery_method_options: { user_name: "humanresources@albinadyla.com",
-                         password: "qtjkkzsrhkjnsdly",
-                         address: "smtp.gmail.com" })
-      elsif @current_admin.sending_mail == "humanresources.pr@albinadyla.com"
-        mail(:to => @user.email,
-           :subject => "Pagesa mujore për periudhën #{@date_from} - #{@date_to}",
-           delivery_method_options: { user_name: "humanresources.pr@albinadyla.com",
-                         password: "mqekbmclvezuzjks",
-                         address: "smtp.gmail.com" })
-      end
-        
+    if @current_admin.sending_mail == "humanresources@albinadyla.com"
+      mail(:to => @user.email,
+        :subject => "Pagesa mujore për periudhën #{@date_from} - #{@date_to}",
+        delivery_method_options: { user_name: "humanresources@albinadyla.com",
+         password: "qtjkkzsrhkjnsdly",
+         address: "smtp.gmail.com" })
+    elsif @current_admin.sending_mail == "humanresources.pr@albinadyla.com"
+      mail(:to => @user.email,
+       :subject => "Pagesa mujore për periudhën #{@date_from} - #{@date_to}",
+       delivery_method_options: { user_name: "humanresources.pr@albinadyla.com",
+         password: "mqekbmclvezuzjks",
+         address: "smtp.gmail.com" })
+    end
+
   end
+
+  def pushim_email
+    @user = params[:user]
+    @kerkesa = params[:kerkesa]
+    if @user.place == "Gjakove"
+      mail(:to => "humanresources@albinadyla.com",
+       :subject => "Kerkese per #{@kerkesa.lloji_pushimit} nga #{@user.name}",
+       delivery_method_options: { user_name: "humanresources@albinadyla.com",
+         password: "qtjkkzsrhkjnsdly",
+         address: "smtp.gmail.com" })
+    elsif @user.place == "Prishtine"
+      mail(:to => "humanresources.pr@albinadyla.com",
+       :subject => "Kerkese per #{@kerkesa.lloji_pushimit} nga #{@user.name}",
+       delivery_method_options: { user_name: "humanresources.pr@albinadyla.com",
+         password: "mqekbmclvezuzjks",
+         address: "smtp.gmail.com" })
+    else
+      mail(:to => "humanresources@albinadyla.com",
+       :subject => "Kerkese per #{@kerkesa.lloji_pushimit} nga #{@user.name}",
+       delivery_method_options: { user_name: "humanresources@albinadyla.com",
+         password: "qtjkkzsrhkjnsdly",
+         address: "smtp.gmail.com" })
+    end
+  end
+
+  def pushim_confirm
+    admin = params[:admin]
+    @user = params[:user]
+    @kerkesa = params[:kerkesa]
+    if admin.sending_mail == "humanresources@albinadyla.com"
+      mail(:to => @user.email,
+       :subject => "Konfirmim i kërkesës për #{@kerkesa.lloji_pushimit}",
+       delivery_method_options: { user_name: "humanresources@albinadyla.com",
+         password: "qtjkkzsrhkjnsdly",
+         address: "smtp.gmail.com" })
+    elsif @current_admin.sending_mail == "humanresources.pr@albinadyla.com"
+      mail(:to => @user.email,
+       :subject => "Konfirmim i kërkesës për #{@kerkesa.lloji_pushimit}",
+       delivery_method_options: { user_name: "humanresources.pr@albinadyla.com",
+         password: "mqekbmclvezuzjks",
+         address: "smtp.gmail.com" })
+    end
+  end
+
+  def pushim_destroy
+    admin = params[:admin]
+    @user = params[:user]
+    @kerkesa = params[:kerkesa]
+    if admin.sending_mail == "humanresources@albinadyla.com"
+      mail(:to => @user.email,
+       :subject => "Mos-konfirmim i kërkesës për #{@kerkesa.lloji_pushimit}",
+       delivery_method_options: { user_name: "humanresources@albinadyla.com",
+         password: "qtjkkzsrhkjnsdly",
+         address: "smtp.gmail.com" })
+    elsif @current_admin.sending_mail == "humanresources.pr@albinadyla.com"
+      mail(:to => @user.email,
+       :subject => "Mos-konfirmim i kërkesës për #{@kerkesa.lloji_pushimit}",
+       delivery_method_options: { user_name: "humanresources.pr@albinadyla.com",
+         password: "mqekbmclvezuzjks",
+         address: "smtp.gmail.com" })
+    end
 end
-#  file = CSV.generate do |csv|
-      #   csv << ["ID", "Emri", "Fillimi", "Mbarimi", "Total", "Shtese", "Mungese", "Pushim"]
-      #   @works.each do |a|
-      #     csv << [a.user.idnum, a.user.name, a.start.strftime("%Y-%m-%d %H:%M"), a.end.strftime("%Y-%m-%d %H:%M"), a.total.to_i, a.extra.to_i, a.missing.to_i, a.extra_pushim.to_i]
-      #   end
-      #   csv << [""]
-      #   csv << ["", "Totali", "", "", "", @extra_t_para.to_i, @missing_t.to_i, @extra_pushim_t_para.to_i]
-      #   csv << [""]
-      #   csv << ["", "Pasqyra e pagës Bruto për periudhën #{@date_from} - #{@date_to}"]
-      #   csv << ["", "Pagesa totale Bruto", @salary]
-      #   csv << ["", "Sigurimet Shoqërore punëdhënësi", @sig.round(2)]
-      #   csv << ["", "Sigurimet Shoqërore punëmarrësi", @sig.round(2)]
-      #   csv << ["", "Paga minus Sigurime Shoqërore nga punëmarrësi (paga e Tatushme)", @salary_ps.round(2)]
-      #   csv << ["", "Tatimi mbi Pagë", @tatimi.round(2)]
-      #   csv << ["", "Paga Neto (pagesa në llogarinë tuaj bankare)", @salary_neto.round(2)]
-      #   csv << [""]
-      #   csv << [""]
-      #   csv << [""]
-      #   csv << ["", "Pasqyra e pagës totale për periudhën #{@date_from} - #{@date_to}"]
-      #   csv << ["", "Pagesa totale Bruto", @salary]
-      #   csv << ["", "Çmimi për orë normale", @ora.round(2)]
-      #   csv << ["", "Çmimi për orë normale", @ora_e.round(2)]
-      #   csv << ["", "Orë shtesë me 30%", "#{(@extra_t/60).to_i}:#{@extra_t%60 < 10 ? "0" : ""}#{(@extra_t%60).to_i}"]
-      #   csv << ["", "Orë shtesë me 50%", "#{(@extra_pushim_t/60).to_i}:#{@extra_pushim_t%60 < 10 ? "0" : ""}#{(@extra_pushim_t%60).to_i}"]
-      #   csv << ["", "Pagesa për orët shtesë me 30%", @oret_e.round(2)]
-      #   csv << ["", "Pagesa për orët shtesë me 50%", @oret_p.round(2)]
-      #   csv << ["", "Pagesa për perqindjet ne shitje", @user.sales.round(2)]
-      #   csv << ["", "Pagesa Bruto Totale (paga+orët shtesë)", @salary_e.round(2)]
-      #   csv << ["", "Sigurimet Shoqërore punëdhënësi", @sig_e.round(2)]
-      #   csv << ["", "Sigurimet Shoqërore punëmarrësi", @sig_e.round(2)]
-      #   csv << ["", "Paga minus Sigurime Shoqërore nga punëmarrësi (paga e Tatushme)" , @salary_ps_e.round(2)]
-      #   csv << ["", "Tatimi mbi Pagë", @tatimi_e.round(2)]
-      #   csv << [""]
-      #   csv << ["", "Paga Neto (pagesa në llogarinë tuaj bankare gjithësej me orë shtesë)", @salary_e_n.round(2)]
-      #   csv << [""]
-      #   csv << ["", "Pagesa Neto totale për orët shtesë", @extra_payment.round(2)]
-      # end
-      
-      # attachments["Pagesa mujore per #{@user.name}.csv"] = {mime_type: 'text/csv', content: file}
