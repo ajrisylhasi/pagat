@@ -1,6 +1,6 @@
 class PushimesController < ApplicationController
 	skip_before_action :go_login, except: [:kerkesas]
-	before_action :go_login_user, except: [:kerkesas]
+	before_action :go_login_user, except: [:kerkesas, :kerkesa_destroy]
 
 	def kerkesa
 		@kerkesa ||= Kerkesa.new
@@ -11,6 +11,7 @@ class PushimesController < ApplicationController
 
 	def kerkesa_destroy
 		@kerkesa = Kerkesa.find(params[:id])
+		PagasMailer.with(user: @current_user, kerkesa: @kerkesa, admin: @current_admin).pushim_destroy.deliver_now
 		@kerkesa.destroy
 		redirect_to kerkesas_path
 	end
@@ -52,6 +53,7 @@ class PushimesController < ApplicationController
 			redirect_to show_path
 		elsif @kerkesa.save
 			flash[:success] = "Kerkesa u dergua me sukses"
+			PagasMailer.with(user: @current_user, kerkesa: @kerkesa).pushim_email.deliver_now
 			redirect_to show_path
 		else
 			render "kerkesa"
@@ -90,6 +92,7 @@ class PushimesController < ApplicationController
 		else
 			@kerkesa.finished = true
 			@kerkesa.save
+			PagasMailer.with(user: @current_user, kerkesa: @kerkesa, admin: @current_admin).pushim_confirm.deliver_now
 			redirect_to kerkesas_path
 		end
 	end

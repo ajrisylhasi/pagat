@@ -1,5 +1,6 @@
 <div class="container">
 	<% @kerkesas.each do |k| %>
+		<center><div style="width:450px; margin-top: 0px;"><%= render 'layouts/flash' %></div></center>
 		<div class="jumbotron" style="<% if k.finished %>background: #9ffcad;<% else %>background: #f57d5f;<% end %>">
 			<table>
 				<tr>

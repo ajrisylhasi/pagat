@@ -1,5 +1,6 @@
 class SessionsController < ApplicationController
 	skip_before_action :go_login
+  before_action :not_logged_in, only: [:new, :create]
   def new
   end
 

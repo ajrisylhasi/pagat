@@ -1,0 +1,35 @@
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+    <style>
+      p {
+        margin: 0px;
+      }
+    </style>
+  </head>
+  <body>
+      <p>Përshëndetje <%= @user.name %>,</p>
+      <p>Shpresojmë që jeni mirë me shëndet dhe po kaloni një ditë të mbarë.</p><br>
+      <p>Kërkesa për <%= @kerkesa.lloji_pushimit %> për periudhën <%= @kerkesa.data_fillimit %> / <%= @kerkesa.data_mbarimit %> për ju nuk është konfirmuar.</p><br>
+      <p>Për faqen e panelit të të dhënave klikoni <a href="http://165.227.136.58/show">këtu</a></p>
+
+      <p>Në të njejtën faqe mund ta krijoni një kërkesë të re</p><br>
+      <p>Për çdo paqartësi, ju lutemi mos hezitoni.</p><br>
+      <p>Faleminderit dhe ju dëshirojmë të gjitha të mirat.</p>
+      <p>Me respekt,</p>
+      <p>Human Resources Growth and Motivation Department</p><br>
+      <p>T: +383 49 600 921</p>
+      <% if @user.place == "Prishtine" %>
+        <p>E: humanresources.pr@albinadyla.com</p>
+        <p>Marigona Residence
+10000 Prishtinë, Kosovë</p>
+      <% else %>
+        <p>E: humanresources@albinadyla.com</p>
+        <p>Albina Dyla   "Skenderbeu" Street n.n 50 000, Gjakova, Kosova</p>
+      <% end %>
+
+      <p>Facebook: Albina Dyla</p>
+      <p>Youtube: Albina Dyla</p>
+      <p>Instagram: albinadylaofficial</p>
+  </body>
+</html>

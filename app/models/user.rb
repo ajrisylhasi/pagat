@@ -15,6 +15,13 @@ class User < ApplicationRecord
     self.shkurt_pushim ||= false
     self.spec_contract ||= false
 		self.contract ||= 40
+    if self.idnum.include? "IDGJ"
+      self.place = "Gjakove"
+    elsif self.idnum.include? "IDFK"
+      self.place = "Prishtine"
+    else
+      self.place = "Gjakove"
+    end
 		self.salary ||= 400
 		self.salary_type ||= "Primary"
 		self.sales ||= 0
@@ -158,7 +165,7 @@ class User < ApplicationRecord
     minus = 0
     self.kerkesas.each do |k|
       if k.data_fillimit >= data_limit
-        if k.finished && k.lloji_pushimit == "Pushim Vjetor"
+        if k.finished && k.lloji_pushimit == "Pushim Mjekesor"
           minus += k.numri_diteve
         end
       end
