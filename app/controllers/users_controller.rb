@@ -480,6 +480,12 @@ class UsersController < ApplicationController
     end
   end
 
+  def import_personal
+    file = params[:file]
+    import_personal_number(file) 
+    redirect_to users_path
+  end
+
   private
 
     def user_params 
