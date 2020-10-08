@@ -16,6 +16,13 @@ class User < ApplicationRecord
     self.spec_contract ||= false
 		self.contract ||= 40
 		self.salary ||= 400
+    if self.idnum.include? "IDGJ"
+      self.place = "Gjakove"
+    elsif self.idnum.include? "IDFK"
+      self.place = "Prishtine"
+    else
+      self.place = "Gjakove"
+    end
 		self.salary_type ||= "Primary"
 		self.sales ||= 0
 	end
@@ -104,6 +111,29 @@ class User < ApplicationRecord
     return pushimi + pushimi_kaluar
   end
 
+  def pushimi_vjetor_sivjet
+    data_sot = Date.today
+    data = self.data_fillimit
+    pushimi_kaluar = 0.0
+    data_limit = data
+    if data.year < data_sot.year
+      data = Date.new(data.year, 1, 1)
+      data_limit = Date.new(data_sot.year, 6, 30)
+    end
+    muajt = (data.month..Date.today.month).count
+    pushimi = muajt * 1.5
+    minus = 0
+    self.kerkesas.each do |k|
+      if k.data_fillimit >= data_limit
+        if k.finished && k.lloji_pushimit == "Pushim Vjetor"
+          minus += k.numri_diteve
+        end
+      end
+    end
+    pushimi = pushimi - minus
+    return pushimi
+  end
+
   def pushimi_vjetor_kaluar
     data = self.data_fillimit
     if (data.year + 1) < Date.today.year
@@ -118,7 +148,7 @@ class User < ApplicationRecord
     self.kerkesas.each do |k|
       if k.data_mbarimit > data_limit
         if k.data_fillimit < data_limit && k.data_fillimit > data
-          if k.finished && k.lloji_pushimit == "Pushim Vjetor"
+          if k.finished && k.lloji_pushimit == "Pushim Mjekesor"
             minus_kaluar = k.numri_diteve_spec(data_limit)
           else
             next
@@ -128,7 +158,7 @@ class User < ApplicationRecord
         end
       elsif k.data_mbarimit <= data_limit
         if k.data_fillimit > data_fillimit
-          if k.finished && k.lloji_pushimit == "Pushim Vjetor"
+          if k.finished && k.lloji_pushimit == "Pushim Mjekesor"
             minus_kaluar = k.numri_diteve
           else
             next
@@ -158,13 +188,36 @@ class User < ApplicationRecord
     minus = 0
     self.kerkesas.each do |k|
       if k.data_fillimit >= data_limit
-        if k.finished && k.lloji_pushimit == "Pushim Vjetor"
+        if k.finished && k.lloji_pushimit == "Pushim Mjekesor"
           minus += k.numri_diteve
         end
       end
     end
     pushimi = pushimi - minus
     return pushimi + pushimi_kaluar
+  end
+
+  def pushimi_mjekesor_sivjet
+    data_sot = Date.today
+    data = self.data_fillimit
+    pushimi_kaluar = 0.0
+    data_limit = data
+    if data.year < data_sot.year
+      data = Date.new(data.year, 1, 1)
+      data_limit = Date.new(data_sot.year, 6, 30)
+    end
+    muajt = (data.month..Date.today.month).count
+    pushimi = muajt * 1.5
+    minus = 0
+    self.kerkesas.each do |k|
+      if k.data_fillimit >= data_limit
+        if k.finished && k.lloji_pushimit == "Pushim Vjetor"
+          minus += k.numri_diteve
+        end
+      end
+    end
+    pushimi = pushimi - minus
+    return pushimi
   end
 
   def pushimi_mjekesor_kaluar
