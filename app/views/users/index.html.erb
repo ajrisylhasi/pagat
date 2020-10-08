@@ -3,7 +3,7 @@
 	<center>
 		<div>
 			<button type="button" data-toggle="modal" data-target="#importModal" class="btn btn-primary">Importo Te Dhenat</button>
-			<!-- <button type="button" data-toggle="modal" data-target="#importModalOnline" class="btn btn-primary">Online</button> -->
+			<button type="button" data-toggle="modal" data-target="#importModalPersonal" class="btn btn-primary">Personal</button>
 		</div>
 	</center>
 	<div>
@@ -109,12 +109,12 @@
 			</div>
 		</div>
 	</div>
-	<div class="modal" id="importModalOnline" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal" id="importModalPersonal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
-				<%= form_tag import_online_works_path, multipart:true, onchange: "check_file()" do %>
+				<%= form_tag import_personal_users_path, multipart:true, onchange: "check_filePersonal()" do %>
 				<div class="modal-header">
-					<h4 class="modal-title" id="exampleModalLabel"><strong>Importo te dhenat nga Excel Online</strong></h4>
+					<h4 class="modal-title" id="exampleModalLabel"><strong>Importo te dhenat nga Excel me numra Personal</strong></h4>
 				</div>
 				<div class="modal-body">
 					<center>

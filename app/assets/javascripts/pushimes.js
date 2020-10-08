@@ -46,6 +46,9 @@ function checkSecondForm() {
 function checkThirdForm() {
 	var i = 0;
 	$('.faqja_3 [id^="kerkesa_"]').each(function(index,item){
+		if(item.id.split("_")[1] == "file"){
+			return;
+		}
 		if(item.value==""){
 			i++;
 			var str = item.id.split("_");

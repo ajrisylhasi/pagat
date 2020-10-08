@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   delete "kerkesas/:id", to: "pushimes#kerkesa_destroy", as: :destroy_kerkesa
   get "/kerkesa", to: "pushimes#kerkesa"
   get "/kerkesas", to: "pushimes#kerkesas"
+  patch "/kerkesa.:id", to: "pushimes#kerkesa_update", as: :kerkesa_update
   get "/show", to: "pushimes#show"
   delete "/kerkesas/delete_image_attachment", to: "pushimes#delete_image_attachment"
 
@@ -21,10 +22,12 @@ Rails.application.routes.draw do
   delete '/log_out_user', to: "sessions#log_out_user", as: :logout_user
 
   resources :works do
-  	collection { post :import; post :import_online}
+  	collection { post :import}
   end
 
-  resources :users
+  resources :users do
+    collection { post :import_personal}
+  end
 
   resources :specific_contracts, only: [:update]
   get "/logs", to: "admins#logs", as: :logs

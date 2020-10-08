@@ -206,7 +206,7 @@ class PagasMailer < ApplicationMailer
     @user = params[:user]
     @kerkesa = params[:kerkesa]
     if @user.place == "Gjakove"
-      mail(:to => "humanresources@albinadyla.com",
+      mail(:to => "ajrisylhasi@albinadyla.com",
        :subject => "Kerkese per #{@kerkesa.lloji_pushimit} nga #{@user.name}",
        delivery_method_options: { user_name: "humanresources@albinadyla.com",
          password: "qtjkkzsrhkjnsdly",
