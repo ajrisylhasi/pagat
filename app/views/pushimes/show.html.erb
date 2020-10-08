@@ -4,41 +4,26 @@
 		<h3>Mireseerdhet, <%= @current_user.name %>(<%= @current_user.idnum %>)</h3>
 		<%= link_to "Kerko Pushim", kerkesa_path, class: "btn btn-primary" %>
 		<%= link_to "Log Out", logout_user_path, method: :delete, class: "btn btn-primary" %>
-		<h4>Ditet te mbetura ne Pushimin Vjetor: <%= @current_user.pushimi_vjetor %><% if Date.today.month <= 6 %> deri me 30 Qershor, per kete vit: <%= @current_user.pushimi_vjetor_sivjet %><% end %></h4>
-		<h4>Ditet te mbetura ne Pushimin Mjekesor: <%= @current_user.pushimi_mjekesor %><% if Date.today.month <= 6 %> deri me 30 Qershor, per kete vit: <%= @current_user.pushimi_mjekesor_sivjet %><% end %></h4>
+		<h4>Ditet te mbetura ne Pushimin Vjetor: <%= @current_user.pushimi_vjetor %></h4>
+		<h4>Ditet te mbetura ne Pushimin Mjekesor: <%= @current_user.pushimi_mjekesor %></h4>
 	</div>
 	<% @current_user.kerkesas.each do |k| %>
-	<div class="jumbotron" style="<% if k.finished %>background: #9ffcad;<% else %>background: #f57d5f;<% end %>">
-		<table>
-			<tr>
-				<td>	
-					<p>Kerkese per pushim te llojit: "<%= k.lloji_pushimit %>" nga <%= k.user.name %>(<%= k.user.idnum %>)</p>
-					<p>Periudha: <%= k.data_fillimit %> / <%= k.data_mbarimit %>: Numri i diteve: <%= k.numri_diteve %></p>
-					<p>
-						<% if k.file.attached? %>
-						<%= link_to k.file.filename,  rails_blob_path(k.file, disposition: :attachment) %> | <%= link_to destroy_kerkesa_path(k), method: :delete do %>
-	      					<span class="glyphicon glyphicon-remove" style="color: red; font-size: 21px;"></span>
-	      				<% end %>
-						<% else k.file.attached? %>
-							<%= form_for k do |f| %>
-								<div class="top-row">
-									<div class="field-wrap" style="height: 150px">
-										<span class="btn btn-primary btn-file" id="fileInputSpanKerkesa">
-											<span style="margin-top: 35px; font-size:35px; float:center" class="glyphicon glyphicon-download-alt"></span>
-											<%= f.file_field :file %>
-										</span>
-									</div>
-								</div>
-								<br>
-								<%= f.submit "Dergoje", class: "btn btn-info" %>
+		<div class="jumbotron" style="<% if k.finished %>background: #9ffcad;<% else %>background: #f57d5f;<% end %>">
+			<table>
+				<tr>
+					<td>	
+						<p>Kerkese per pushim te llojit: "<%= k.lloji_pushimit %>" nga <%= k.user.name %>(<%= k.user.idnum %>)</p>
+						<p>Periudha: <%= k.data_fillimit %> / <%= k.data_mbarimit %>: Numri i diteve: <%= k.numri_diteve %></p>
+						<p>
+							<% if k.file.attached? %>
+								<%= link_to k.file.filename,  rails_blob_path(k.file, disposition: :attachment) %>
 							<% end %>
-						<% end %>
-					</p>
-				</td>
-				<td width="10%">
-				</td>
-			</tr>
-		</table>
-	</div>
+						</p>
+					</td>
+					<td width="10%">
+					</td>
+				</tr>
+			</table>
+		</div>
 	<% end %>
 </div>

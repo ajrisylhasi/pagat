@@ -1,19 +1,12 @@
-<style>
-	#flexi {
-		margin: auto;
-		display: flex;
-	}
-	#flexi a {
-		margin: 5px;
-	}
-</style>
+
 <div class="container" style="width:35%">
-	<div id="flexi">
-		<%= link_to "Ndryshimet", logs_path, class: "btn btn-primary" %>
-		<%= link_to "Pushimet Zyrtare", pushimet_path, class: "btn btn-primary" %>
-		<%= link_to "Deklarimet", deklarims_path, class: "btn btn-primary" %>
-		<%= link_to "Kerkesat", kerkesas_path, class: "btn btn-primary" %>
-	</div>
+	<center>
+		<div>
+			<%= link_to "Ndryshimet", logs_path, class: "btn btn-primary" %>
+			<%= link_to "Pushimet Zyrtare", pushimet_path, class: "btn btn-primary" %>
+			<%= link_to "Deklarimet", deklarims_path, class: "btn btn-primary" %>
+		</div>
+	</center>
 	<%= render 'shared/error_messages' %>
 	<%= will_paginate @admins, renderer: BootstrapPagination::Rails, :previous_label => 'Prapa', :next_label => 'Perpara' %>
   	<table class="table" >
