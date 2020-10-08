@@ -6,29 +6,29 @@ module UsersHelper
 			data = Roo::Spreadsheet.open(file.path, extension: :xlsx) 
 		end
 		users = []
-			i = 0
-	  	data.each_with_index do |row, idx|
-		    
-	      if idx == 0
-	        if row[0] == "Serial No." 
-	          i = 0
-	        elsif row[0] == "Department"
-	          i = 1
-	        elsif row[0] == "User No."
-	          i = 2
-	        end
-	        next
-	      end
-		    name = row[4-i]
-		    idnum = row[2-i]
-		    if !(User.find_by(idnum: idnum).nil?)
-		    	next
+		i = 0
+		data.each_with_index do |row, idx|
+			
+			if idx == 0
+				if row[0] == "Serial No." 
+					i = 0
+				elsif row[0] == "Department"
+					i = 1
+				elsif row[0] == "User No."
+					i = 2
+				end
+				next
+			end
+			name = row[4-i]
+			idnum = row[2-i]
+			if !(User.find_by(idnum: idnum).nil?)
+				next
 			else
-		    	@user = User.create(name: name, idnum: idnum)
-		    	SpecificContract.create(user: @user)
-		    end
-		    users << "#{name}(#{idnum})"
-		  end
+				@user = User.create(name: name, idnum: idnum)
+				SpecificContract.create(user: @user)
+			end
+			users << "#{name}(#{idnum})"
+		end
 		Log.create(admin: @current_admin, text: "U shtuan punetoret: #{users.join(", ")}")
 	end
 
@@ -39,29 +39,29 @@ module UsersHelper
 			data = Roo::Spreadsheet.open(file.path, extension: :xlsx) 
 		end
 		users = []
-			i = 0
-	  	data.each_with_index do |row, idx|
-		    
-	      if idx == 0
-	        if row[0] == "Serial No." 
-	          i = 0
-	        elsif row[0] == "Department"
-	          i = 1
-	        elsif row[0] == "User No."
-	          i = 2
-	        end
-	        next
-	      end
-		    name = row[4-i]
-		    idnum = row[2-i]
-		    if !(User.find_by(idnum: idnum).nil?)
-		    	next
+		i = 0
+		data.each_with_index do |row, idx|
+			
+			if idx == 0
+				if row[0] == "Serial No." 
+					i = 0
+				elsif row[0] == "Department"
+					i = 1
+				elsif row[0] == "User No."
+					i = 2
+				end
+				next
+			end
+			name = row[4-i]
+			idnum = row[2-i]
+			if !(User.find_by(idnum: idnum).nil?)
+				next
 			else
-		    	@user = User.create(name: name, idnum: idnum)
-		    	SpecificContract.create(user: @user)
-		    end
-		    users << "#{name}(#{idnum})"
-		  end
+				@user = User.create(name: name, idnum: idnum)
+				SpecificContract.create(user: @user)
+			end
+			users << "#{name}(#{idnum})"
+		end
 		Log.create(admin: @current_admin, text: "U shtuan punetoret: #{users.join(", ")}")
 	end
 
@@ -80,11 +80,11 @@ module UsersHelper
 				works = @works.select { |w| w.start.strftime("%m/%d/%Y") == d}
 				works.each do |w|
 					if w.pushim == false
-				      w.pushim = true
-				    else
-				      w.pushim = false
-				    end
-				    w.save
+						w.pushim = true
+					else
+						w.pushim = false
+					end
+					w.save
 				end
 			end
 			Log.create(admin: @current_admin, text: "U ndryshuan ditet e pushimit per punemarresin #{@works.first.user.name}(#{@works.first.user.idnum})")
