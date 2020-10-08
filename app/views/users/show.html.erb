@@ -181,7 +181,9 @@
 		<%= link_to image_tag('excel_icon.svg', style: "width: 50px;height:50px"), gen_xl_path(date_from: @date_from, date_to: @date_to)%>
 		<%= link_to image_tag('email_icon.svg', style: "width: 120px;height:75px"), send_mail_path(date_from: @date_from, date_to: @date_to), id:"email-button" %>
 	<% end %>
-	<%= link_to "Deklaro Pagen", deklaro_pagen_path(kontributi_pension: [@salary_e, @sig_e]), method: :post %>
+	<% if Deklarim.count != 0 %>
+		<%= link_to "Deklaro Pagen", deklaro_pagen_path(kontributi_pension: [@salary_e, @sig_e]), method: :post %>
+	<% end %>
 </div>
 <%= form_for @user do |f|%>
 
