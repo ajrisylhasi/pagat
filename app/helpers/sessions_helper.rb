@@ -11,6 +11,12 @@ module SessionsHelper
     !current_admin.nil?
   end
 
+  def not_logged_in
+    unless current_admin.nil?
+      redirect_to root_path
+    end
+  end
+
   def log_in_user(user)
     session[:user_id] = user.id
   end
