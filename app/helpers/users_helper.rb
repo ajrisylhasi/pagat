@@ -93,41 +93,41 @@ module UsersHelper
 
 	end
 
-	def import_personal_number(file)
-		if File.extname(file.path) == ".xls"
-			data = Roo::Excel.new(file.path, extension: :xls) 
-		else
-			data = Roo::Excelx.new(file.path, extension: :xlsx) 
-		end
-		pushim_dates = Pushim.all
-		users = []
-		work = 0
+	# def import_personal_number(file)
+	# 	if File.extname(file.path) == ".xls"
+	# 		data = Roo::Excel.new(file.path, extension: :xls) 
+	# 	else
+	# 		data = Roo::Excelx.new(file.path, extension: :xlsx) 
+	# 	end
+	# 	pushim_dates = Pushim.all
+	# 	users = []
+	# 	work = 0
 
-		$val = []
-		data.each_with_index do |row, idx|
-			i = 0
-			if idx <= 1
-				next
-			end
-			user = User.find_by(idnum: row[0].strip)
-			user = User.find_by(name: "#{row[1]}".gsub(" ","") + " " + "#{row[2]}".gsub(" ","")) if user == nil
-			if user == nil
-				next
-			else
-				if row[3] != "" || row[3] != nil
-					user.personal_number = row[3]
-				end
-				if row[4] != "" || row[4] != nil
-					user.email = row[4]
-				end
-				if row[5].to_f != 0 || row[5] != nil
-					user.salary = row[5]
-				end
-				if row[6].to_i != 0 || row[6] != nil
-					user.contract = row[6]
-				end
-			end
-		end
-	end
+	# 	$val = []
+	# 	data.each_with_index do |row, idx|
+	# 		i = 0
+	# 		if idx <= 1
+	# 			next
+	# 		end
+	# 		user = User.find_by(idnum: row[0].strip)
+	# 		user = User.find_by(name: "#{row[1]}".gsub(" ","") + " " + "#{row[2]}".gsub(" ","")) if user == nil
+	# 		if user == nil
+	# 			next
+	# 		else
+	# 			if row[3] != "" || row[3] != nil
+	# 				user.personal_number = row[3]
+	# 			end
+	# 			if row[4] != "" || row[4] != nil
+	# 				user.email = row[4]
+	# 			end
+	# 			if row[5].to_f != 0 || row[5] != nil
+	# 				user.salary = row[5]
+	# 			end
+	# 			if row[6].to_i != 0 || row[6] != nil
+	# 				user.contract = row[6]
+	# 			end
+	# 		end
+	# 	end
+	# end
 
 end
