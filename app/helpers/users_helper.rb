@@ -115,7 +115,8 @@ module UsersHelper
 				user = User.find_by(name: "#{row[1]}".gsub(" ","") + " " + "#{row[2]}".gsub(" ",""))
 			end
 			if user == nil
-				user = User.create(idnum: "#{row[0].strip}", name: "#{row[1]}".gsub(" ","") + " " + "#{row[2]}".gsub(" ",""), personal_number: "#{row[3]}".gsub(" ",""), email: "#{row[4]}".gsub(" ",""), salary: row[5].to_f, contract: row[6].to_i)
+				user = User.create(idnum: "#{row[0].strip}", name: "#{row[1]}".gsub(" ","") + " " + "#{row[2]}".gsub(" ",""), personal_number: "#{row[3].to_i}".gsub(" ",""), email: "#{row[4]}".gsub(" ",""), salary: row[5].to_f, contract: row[6].to_i)
+				SpecificContract.create(user: @user)
 				row[7] = "" if row[7] == nil
 				ditet = row[7].split(",")
 				ditet = [] if ditet == nil
