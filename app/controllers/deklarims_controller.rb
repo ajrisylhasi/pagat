@@ -47,6 +47,12 @@ class DeklarimsController < ApplicationController
 		end	
 	end
 
+	def destroy
+		@deklarim = Deklarim.find(params[:id])
+		@deklarim.destroy
+		redirect_to deklarims_path
+	end
+
 	def show_xl
 		@i = 0
 		@deklarim = Deklarim.find(params[:id])
