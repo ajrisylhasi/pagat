@@ -48,8 +48,7 @@ module WorksHelper
       user = User.find_by(idnum: row[2-i])
 
       if user == nil
-        import_it_us(file)
-        user = User.find_by(idnum: row[2-i])
+        next
       end
       unless user.sales == 0
         user.sales = 0

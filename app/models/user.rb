@@ -2,6 +2,7 @@ class User < ApplicationRecord
 	has_many :works, dependent: :destroy
 	has_many :groups, dependent: :destroy
   has_many :kerkesas, dependent: :destroy
+  has_many :pagas, dependent: :destroy
 	validates :idnum, presence: true, uniqueness: {message: "- Perdoruesi me kete ID ekziston"}
 	before_save :default
 
@@ -64,19 +65,19 @@ class User < ApplicationRecord
     str = []
     i = 0
     loop do  
-      if i == 0 && pushimet[i] == "true"
+      if i == 0 && pushimet[i]
         str << "E Hënë"
-      elsif i == 1 && pushimet[i] == "true"
+      elsif i == 1 && pushimet[i]
         str << "E Martë"
-      elsif i == 2 && pushimet[i] == "true"
+      elsif i == 2 && pushimet[i]
         str << "E Mërkurë"
-      elsif i == 3 && pushimet[i] == "true"
+      elsif i == 3 && pushimet[i]
         str << "E Enjte"
-      elsif i == 4 && pushimet[i] == "true"
+      elsif i == 4 && pushimet[i]
         str << "E Premte"
-      elsif i == 5 && pushimet[i] == "true"
+      elsif i == 5 && pushimet[i]
         str << "E Shtunë"
-      elsif i == 6 && pushimet[i] == "true"
+      elsif i == 6 && pushimet[i]
         str << "E Diel"
       end
       i+=1

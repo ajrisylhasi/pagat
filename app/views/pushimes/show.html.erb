@@ -19,7 +19,8 @@
 						<%= link_to k.file.filename,  rails_blob_path(k.file, disposition: :attachment) %> | <%= link_to destroy_kerkesa_path(k), method: :delete do %>
 	      					<span class="glyphicon glyphicon-remove" style="color: red; font-size: 21px;"></span>
 	      				<% end %>
-						<% else k.file.attached? %>
+						<% else%>
+							<% if k.lloji_pushimit == "Pushim Mjekesor" %>
 							<%= form_for k do |f| %>
 								<div class="top-row">
 									<div class="field-wrap" style="height: 150px">
@@ -32,6 +33,7 @@
 								<br>
 								<%= f.submit "Dergoje", class: "btn btn-info" %>
 							<% end %>
+						<% end %>
 						<% end %>
 					</p>
 				</td>

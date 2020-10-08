@@ -100,33 +100,90 @@ module UsersHelper
 			data = Roo::Excelx.new(file.path, extension: :xlsx) 
 		end
 		pushim_dates = Pushim.all
-		users = []
+		users_new = []
+		users_edit = []
 		work = 0
 
 		$val = []
 		data.each_with_index do |row, idx|
 			i = 0
-			if idx <= 1
+			if idx == 0
 				next
 			end
-			user = User.find_by(idnum: row[0].strip)
-			user = User.find_by(name: "#{row[1]}".gsub(" ","") + " " + "#{row[2]}".gsub(" ","")) if user == nil
+			user = User.find_by(idnum: row[0].gsub(" ",""))
+			if user == nil
+				user = User.find_by(name: "#{row[1]}".gsub(" ","") + " " + "#{row[2]}".gsub(" ",""))
+			end
+			if user == nil
+				user = User.create(idnum: "#{row[0].strip}", name: "#{row[1]}".gsub(" ","") + " " + "#{row[2]}", personal_number: "#{row[3]}", email: "#{row[4]}", salary: row[5].to_f, contract: row[6].to_i)
+				row[7] = "" if row[7] == nil
+				ditet = row[7].split(",")
+				ditet = [] if ditet == nil
+				ditet.each do |d|
+					if d.strip == "E Hënë"
+						user.pushimet[0] = true
+					elsif d.strip == "E Martë"
+						user.pushimet[1] = true
+					elsif d.strip == "E Mërkurë"
+						user.pushimet[2] = true
+					elsif d.strip == "E Enjte"
+						user.pushimet[3] = true
+					elsif d.strip == "E Premte"
+						user.pushimet[4] = true
+					elsif d.strip == "E Shtunë"
+						user.pushimet[5] = true
+					elsif d.strip == "E Diel"
+						user.pushimet[6] = true
+					end
+				end
+				users_new << "#{user.name}(#{user.idnum})"
+				user.save
+				next
+			end
 			if user == nil
 				next
 			else
-				if row[3] != "" || row[3] != nil
-					user.personal_number = row[3]
+				if row[3] != "" && row[3] != nil
+					user.personal_number = "#{row[3]}"
 				end
-				if row[4] != "" || row[4] != nil
-					user.email = row[4]
+				if row[4] != "" && row[4] != nil
+					user.email = "#{row[4]}"
 				end
-				if row[5].to_f != 0 || row[5] != nil
-					user.salary = row[5]
+				if row[5].to_f != 0 && row[5] != nil
+					user.salary = row[5].to_f
 				end
-				if row[6].to_i != 0 || row[6] != nil
-					user.contract = row[6]
+				if row[6].to_i != 0 && row[6] != nil
+					user.contract = row[6].to_i
 				end
+				if row[7] != "" && row[7] != nil
+					ditet = "#{row[7]}".split(",")
+					ditet.each do |d|
+						if d.strip == "E Hënë"
+							user.pushimet[0] = true
+						elsif d.strip == "E Martë"
+							user.pushimet[1] = true
+						elsif d.strip == "E Mërkurë"
+							user.pushimet[2] = true
+						elsif d.strip == "E Enjte"
+							user.pushimet[3] = true
+						elsif d.strip == "E Premte"
+							user.pushimet[4] = true
+						elsif d.strip == "E Shtunë"
+							user.pushimet[5] = true
+						elsif d.strip == "E Diel"
+							user.pushimet[6] = true
+						end
+					end
+				end
+				users_edit << "#{user.name}(#{user.idnum})"
+				user.save
 			end
+		end
+		if users_new
+			Log.create(admin: @current_admin, text: "U shtuan punetoret: #{users_new.join(", ")}")
+		end
+		if users_edit
+			Log.create(admin: @current_admin, text: "U ndryshuan punetoret: #{users_edit.join(", ")}")
 		end
 	end
 
