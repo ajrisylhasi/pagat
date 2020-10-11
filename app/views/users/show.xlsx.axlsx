@@ -13,7 +13,7 @@ wb.add_worksheet(name: "Products") do |sheet|
       "#{(a.total/60).to_i}:#{ a.total%60 < 10 ? 0 : ""}#{ (a.total%60).to_i}", 
       "#{(a.extra/60).to_i}:#{ a.extra%60 < 10 ? 0 : ""}#{ (a.extra%60).to_i}",
       "#{(a.missing/60).to_i}:#{ a.missing%60 < 10 ? 0 : ""}#{ (a.missing%60).to_i}",
-      "#{(@extra_t_para/60).to_i}:#{ a.extra_pushim%60 < 10 ? 0 : ""}#{ (a.extra_pushim%60).to_i}"]
+      "#{(@extra_pushim/60).to_i}:#{ a.extra_pushim%60 < 10 ? 0 : ""}#{ (a.extra_pushim%60).to_i}"]
     end
   end
 
