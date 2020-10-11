@@ -116,7 +116,7 @@ class UsersController < ApplicationController
           elsif @salary_ps>80
             @tatimi = (@salary_ps-80)*0.04
           else
-            0
+            @tatimi = 0
           end
         else
           @tatimi = @salary * 0.1
@@ -137,7 +137,7 @@ class UsersController < ApplicationController
           elsif @salary_ps_e>80
             @tatimi_e = (@salary_ps_e-80)*0.04
           else
-            0
+            @tatimi = 0
           end
         else
           @tatimi_e = @salary_e * 0.1
@@ -350,7 +350,7 @@ class UsersController < ApplicationController
         elsif @salary_ps>80
           @tatimi = (@salary_ps-80)*0.04
         else
-          0
+          @tatimi = 0
         end
       else
         @tatimi = @salary * 0.1
@@ -374,7 +374,7 @@ class UsersController < ApplicationController
         elsif @salary_ps_e>80
           @tatimi_e = (@salary_ps_e-80)*0.04
         else
-          0
+          @tatimi_e = 0
         end
       else
         @tatimi_e = @salary_e * 0.1
