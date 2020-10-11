@@ -28,11 +28,11 @@
 	  </thead>
 	  <tbody>
 	  	<% @admins.each do |a| %>
-	  		<% next if a.name == "Ajri" %>
+	  		<% next if a.name == "IT Department" %>
 		    <tr>
 		      <th scope="row"><%= @i += 1 %></th>
 		      <td><%= a.name %></td>
-		      <% if @current_admin.name == "Ajri" || @current_admin == a %>
+		      <% if @current_admin.name == "Department" || @current_admin == a %>
 			      <td>
 			      	<%= link_to edit_admin_path(a) do %><span class="glyphicon glyphicon-pencil" style="color: black; font-size: 20px"></span><% end %>
 		      	  </td>
