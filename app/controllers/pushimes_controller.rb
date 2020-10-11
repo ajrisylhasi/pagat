@@ -1,6 +1,6 @@
 class PushimesController < ApplicationController
-	skip_before_action :go_login, except: [:kerkesas, :kerkesa_destroy]
-	before_action :go_login_user, except: [:kerkesas, :kerkesa_destroy]
+	skip_before_action :go_login, except: [:kerkesas, :kerkesa_destroy, :finished_kerkesa]
+	before_action :go_login_user, except: [:kerkesas, :kerkesa_destroy, :finish_kerkesa]
 
 	def kerkesa
 		@kerkesa ||= Kerkesa.new

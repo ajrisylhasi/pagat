@@ -7,6 +7,7 @@
 					<td>	
 						<p>Kerkese per pushim te llojit: "<%= k.lloji_pushimit %>" nga <%= k.user.name %>(<%= k.user.idnum %>)</p>
 						<p>Periudha: <%= k.data_fillimit %> / <%= k.data_mbarimit %></p>
+						<p>Numri i Diteve: <%= k.numri_diteve %></p>
 						<p>
 							<% if k.file.attached? %>
 								<%= link_to k.file.filename,  rails_blob_path(k.file, disposition: :attachment) %> |
