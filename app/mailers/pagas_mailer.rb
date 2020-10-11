@@ -236,7 +236,7 @@ class PagasMailer < ApplicationMailer
        delivery_method_options: { user_name: "humanresources@albinadyla.com",
          password: "qtjkkzsrhkjnsdly",
          address: "smtp.gmail.com" })
-    elsif @current_admin.sending_mail == "humanresources.pr@albinadyla.com"
+    elsif admin.sending_mail == "humanresources.pr@albinadyla.com"
       mail(:to => @user.email,
        :subject => "Konfirmim i kërkesës për #{@kerkesa.lloji_pushimit}",
        delivery_method_options: { user_name: "humanresources.pr@albinadyla.com",
@@ -255,7 +255,7 @@ class PagasMailer < ApplicationMailer
        delivery_method_options: { user_name: "humanresources@albinadyla.com",
          password: "qtjkkzsrhkjnsdly",
          address: "smtp.gmail.com" })
-    elsif @current_admin.sending_mail == "humanresources.pr@albinadyla.com"
+    elsif admin.sending_mail == "humanresources.pr@albinadyla.com"
       mail(:to => @user.email,
        :subject => "Mos-konfirmim i kërkesës për #{@kerkesa.lloji_pushimit}",
        delivery_method_options: { user_name: "humanresources.pr@albinadyla.com",

@@ -1,5 +1,5 @@
 class PushimesController < ApplicationController
-	skip_before_action :go_login, except: [:kerkesas, :kerkesa_destroy, :finished_kerkesa]
+	skip_before_action :go_login, except: [:kerkesas, :kerkesa_destroy, :finish_kerkesa]
 	before_action :go_login_user, except: [:kerkesas, :kerkesa_destroy, :finish_kerkesa]
 
 	def kerkesa
@@ -109,7 +109,7 @@ class PushimesController < ApplicationController
 		else
 			@kerkesa.finished = true
 			@kerkesa.save
-			PagasMailer.with(user: @current_user, kerkesa: @kerkesa, admin: @current_admin).pushim_confirm.deliver_now
+			PagasMailer.with(user: @kerkesa.user, kerkesa: @kerkesa, admin: @current_admin).pushim_confirm.deliver_now
 			redirect_to kerkesas_path
 		end
 	end
