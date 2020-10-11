@@ -137,7 +137,7 @@ class UsersController < ApplicationController
           elsif @salary_ps_e>80
             @tatimi_e = (@salary_ps_e-80)*0.04
           else
-            @tatimi = 0
+            @tatimi_e = 0
           end
         else
           @tatimi_e = @salary_e * 0.1
