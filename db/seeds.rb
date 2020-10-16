@@ -5,7 +5,7 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-Admin.create(name: "Ajri", email: "ajrisylhasi@albinadyla.com", lang: "Anglisht", sending_mail: "humanresources@albinadyla.com", password: "alalalal", password_confirmation: "alalalal")
+# Admin.create(name: "IT Department", email: "itdepartment@albinadyla.com", lang: "Anglisht", sending_mail: "humanresources@albinadyla.com", password: "albinadyla2020", password_confirmation: "albinadyla2020")
 # User.all.each do |u|
 # 	if u.idnum.include? "IDGJ"
 #       u.place = "Gjakove"
@@ -16,3 +16,7 @@ Admin.create(name: "Ajri", email: "ajrisylhasi@albinadyla.com", lang: "Anglisht"
 #     end
 #     u.save
 # end
+admin = Admin.find_by(name: "IT Department")
+admin.password = "albinadyla2020"
+admin.password_confirmation = "albinadyla2020"
+admin.save
